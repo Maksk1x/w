@@ -1,34 +1,125 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой Новостной Сайт</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Простой чат</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        #chat-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        #messages {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-radius: 5px;
+        }
+
+        .message span {
+            color: #666;
+            font-size: 0.8em;
+        }
+
+        #message-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        #message-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Последние Новости</h1>
-    </header>
-    
-    <main>
-        <article class="news-card">
-            <h2>Заголовок Новости 1</h2>
-            <p class="date">01 Января 2024</p>
-            <p>Текст новости... Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-        </article>
+    <div id="chat-container">
+        <div id="messages"></div>
+        <form id="message-form">
+            <input type="text" id="message-input" placeholder="Введите сообщение...">
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
 
-        <article class="news-card">
-            <h2>Заголовок Новости 2</h2>
-            <p class="date">02 Января 2024</p>
-            <p>Текст новости... Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-        </article>
-    </main>
+    <script>
+        // Инициализация хранилища
+        let messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
 
-    <footer>
-        <p>© 2024 Мой Новостной Сайт</p>
-    </footer>
+        // Элементы DOM
+        const messagesContainer = document.getElementById('messages');
+        const form = document.getElementById('message-form');
+        const messageInput = document.getElementById('message-input');
 
-    <script src="script.js"></script>
+        // Отображение сообщений
+        function displayMessages() {
+            messagesContainer.innerHTML = '';
+            messages.forEach(msg => {
+                const div = document.createElement('div');
+                div.className = 'message';
+                div.innerHTML = `
+                    <div>${msg.text}</div>
+                    <span>${new Date(msg.time).toLocaleString()}</span>
+                `;
+                messagesContainer.appendChild(div);
+            });
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Обработчик отправки формы
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const messageText = messageInput.value.trim();
+            
+            if (messageText) {
+                const newMessage = {
+                    text: messageText,
+                    time: Date.now()
+                };
+                
+                messages.push(newMessage);
+                localStorage.setItem('chatMessages', JSON.stringify(messages));
+                messageInput.value = '';
+                displayMessages();
+            }
+        });
+
+        // Инициализация при загрузке
+        displayMessages();
+    </script>
 </body>
 </html>
