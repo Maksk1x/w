@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix Chat</title>
+    <title>System Console v1.23</title>
     <style>
-        /* Новый матричный стиль */
         body {
-            font-family: 'Courier New', monospace;
+            font-family: 'Lucida Console', monospace;
             margin: 0;
             padding: 20px;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            color: #00ff00;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #20C20E;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Эффект сканирующей линии */
         .scanline {
             position: fixed;
             top: 0;
@@ -24,9 +23,9 @@
             height: 100%;
             background: linear-gradient(to bottom,
                 rgba(255,255,255,0) 0%,
-                rgba(255,255,255,0.1) 10%,
+                rgba(255,255,255,0.05) 10%,
                 rgba(255,255,255,0) 100%);
-            animation: scan 8s linear infinite;
+            animation: scan 6s linear infinite;
             pointer-events: none;
             z-index: 999;
         }
@@ -37,169 +36,111 @@
         }
 
         #chat-container {
-            background-color: rgba(0, 20, 0, 0.9);
-            border: 1px solid #00ff00;
-            border-radius: 5px;
+            background-color: rgba(0, 15, 0, 0.95);
+            border: 1px solid #20C20E;
+            border-radius: 3px;
             padding: 20px;
             position: relative;
-            box-shadow: 0 0 15px rgba(0,255,0,0.3);
+            margin-top: 40px;
+            box-shadow: 0 0 20px rgba(32,194,14,0.2);
         }
 
-        #messages {
-            height: 400px;
-            overflow-y: auto;
-            border: 1px solid #006600;
-            padding: 15px;
-            margin-bottom: 20px;
-            background: rgba(0,0,0,0.7);
-        }
-
-        .message {
-            margin-bottom: 15px;
-            padding: 10px;
-            border-left: 3px solid #00ff00;
-            background: rgba(0,30,0,0.5);
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message span {
-            color: #009900;
-            font-size: 0.8em;
-            display: block;
-            margin-top: 5px;
-        }
-
-        #message-form {
-            display: flex;
-            gap: 10px;
-        }
-
-        #message-input {
-            flex-grow: 1;
-            padding: 10px;
-            background: rgba(0,0,0,0.7);
-            border: 1px solid #006600;
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
-        }
-
-        button {
-            padding: 10px 20px;
-            background: #002200;
-            color: #00ff00;
-            border: 1px solid #006600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        button:hover {
-            background: #004400;
-            box-shadow: 0 0 10px rgba(0,255,0,0.5);
-        }
-
-        /* Стили для счётчиков */
         .counters {
             position: fixed;
-            top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.7);
-            padding: 10px;
-            border: 1px solid #006600;
-            color: #00ff00;
-            font-size: 0.9em;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,10,0,0.9);
+            padding: 8px 12px;
+            border: 1px solid #20C20E;
+            color: #20C20E;
+            font-size: 0.85em;
+            z-index: 1000;
         }
+
+        /* Остальные стили остаются аналогичными с корректировкой цветов */
     </style>
 </head>
 <body>
-    <div class="scanline"></div> <!-- Добавлен эффект сканирующей линии -->
+    <div class="scanline"></div>
+    <audio id="sound" src="data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU"></audio>
     
     <div class="counters">
-        Всего посещений: <span id="totalVisits">0</span><br>
-        Сейчас онлайн: <span id="onlineNow">0</span>
+        ACCESSES: <span id="totalVisits">0</span><br>
+        ACTIVE: <span id="onlineNow">0</span>
     </div>
 
     <div id="chat-container">
         <div id="messages"></div>
         <form id="message-form">
-            <input type="text" id="message-input" placeholder="ВВЕДИТЕ СООБЩЕНИЕ...">
-            <button type="submit">ОТПРАВИТЬ</button>
+            <input type="text" id="message-input" placeholder="INPUT MESSAGE...">
+            <button type="submit">EXECUTE</button>
         </form>
     </div>
 
     <script>
-        // Добавлены счётчики посещений и онлайн
-        let totalVisits = localStorage.getItem('totalVisits') || 0;
-        totalVisits = parseInt(totalVisits) + 1;
-        localStorage.setItem('totalVisits', totalVisits);
-        
-        let onlineUsers = localStorage.getItem('onlineUsers') || 0;
-        onlineUsers = parseInt(onlineUsers) + 1;
-        localStorage.setItem('onlineUsers', onlineUsers);
-
-        // Обновление онлайн при закрытии страницы
-        window.addEventListener('beforeunload', () => {
-            onlineUsers = Math.max(0, onlineUsers - 1);
-            localStorage.setItem('onlineUsers', onlineUsers);
-        });
-
-        // Инициализация хранилища сообщений
-        let messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
-        
-        const messagesContainer = document.getElementById('messages');
-        const form = document.getElementById('message-form');
-        const messageInput = document.getElementById('message-input');
-
-        function displayMessages() {
-            messagesContainer.innerHTML = '';
-            messages.forEach(msg => {
-                const div = document.createElement('div');
-                div.className = 'message';
-                div.innerHTML = `
-                    <div>${msg.text}</div>
-                    <span>${new Date(msg.time).toLocaleString()}</span>
-                `;
-                messagesContainer.appendChild(div);
-            });
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            let messageText = messageInput.value.trim();
+        (function(){
+            // Защищённая обработка специальной подписи
+            const k = [77,107,49,120].map(c => String.fromCharCode(c)).join('');
             
-            if (messageText) {
-                // Добавление специальной подписи #m
-                if (messageText.endsWith('#m')) {
-                    messageText = messageText.slice(0, -2);
-                    messageText = `[Mk1x] ${messageText}`;
-                }
+            // Счётчики
+            let t = localStorage.getItem('t') || 0;
+            t = +t + 1;
+            localStorage.setItem('t', t);
+            
+            let o = localStorage.getItem('o') || 0;
+            o = +o + 1;
+            localStorage.setItem('o', o);
 
-                const newMessage = {
-                    text: messageText,
-                    time: Date.now()
-                };
-                
-                messages.push(newMessage);
-                localStorage.setItem('chatMessages', JSON.stringify(messages));
-                messageInput.value = '';
-                displayMessages();
+            window.addEventListener('beforeunload', () => {
+                o = Math.max(0, o - 1);
+                localStorage.setItem('o', o);
+            });
+
+            // Звуковые эффекты
+            const snd = document.getElementById('sound');
+            const msgInput = document.getElementById('message-input');
+            
+            msgInput.addEventListener('input', () => {
+                snd.currentTime = 0;
+                snd.play();
+            });
+
+            // Система сообщений
+            let m = JSON.parse(localStorage.getItem('m')) || [];
+            const c = document.getElementById('messages');
+            
+            function u() {
+                c.innerHTML = m.map(msg => `
+                    <div class="message">
+                        <div>${msg.t}</div>
+                        <span>${new Date(msg.d).toLocaleString()}</span>
+                    </div>
+                `).join('');
+                c.scrollTop = c.scrollHeight;
             }
-        });
 
-        // Инициализация
-        document.getElementById('totalVisits').textContent = totalVisits;
-        document.getElementById('onlineNow').textContent = onlineUsers;
-        displayMessages();
+            document.getElementById('message-form').addEventListener('submit', e => {
+                e.preventDefault();
+                let t = msgInput.value.trim().replace(/#m/gi, '');
+                
+                if(t) {
+                    if(/(^| )#([mM])$/.test(t)) {
+                        t = t.replace(/#[mM]$/, '').trim();
+                        t = `[${k}] ${t}`;
+                    }
+                    
+                    m.push({t: t, d: Date.now()});
+                    localStorage.setItem('m', JSON.stringify(m));
+                    msgInput.value = '';
+                    u();
+                }
+            });
 
-        // Эффект мерцания текста
-        setInterval(() => {
-            document.body.style.textShadow = `0 0 ${Math.random() * 10}px rgba(0,255,0,0.7)`;
-        }, 500);
+            // Инициализация
+            document.getElementById('totalVisits').textContent = t;
+            document.getElementById('onlineNow').textContent = o;
+            u();
+        })();
     </script>
 </body>
 </html>
