@@ -3,10 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix Chat v2.1</title>
-    <!-- Стили остаются без изменений как в предыдущей версии -->
+    <title>Matrix Chat</title>
     <style>
-        /* Все стили из предыдущего кода сохраняются */
+        body {
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #00ff00;
+            min-height: 100vh;
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.1) 10%,
+                rgba(255,255,255,0) 100%);
+            animation: scan 8s linear infinite;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        #chat-container {
+            background-color: rgba(0, 20, 0, 0.9);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 40px;
+            box-shadow: 0 0 15px rgba(0,255,0,0.3);
+        }
+
+        #messages {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #006600;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.7);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-left: 3px solid #00ff00;
+            background: rgba(0,30,0,0.5);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        #message-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        #message-input {
+            flex-grow: 1;
+            padding: 10px;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid #006600;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #002200;
+            color: #00ff00;
+            border: 1px solid #006600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #004400;
+            box-shadow: 0 0 10px rgba(0,255,0,0.5);
+        }
+
+        .counters {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,10,0,0.9);
+            padding: 8px 12px;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            font-size: 0.85em;
+            z-index: 1000;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -27,73 +124,66 @@
 
     <script>
         (function(){
-            const secret = atob('TWsxeA=='); // Декодирование подписи
+            // Секретная подпись
+            const secretKey = 'Mk1x';
             
             // Инициализация хранилища
-            let messages = JSON.parse(localStorage.getItem('m')) || [];
-            let total = localStorage.getItem('t') || 0;
-            let online = localStorage.getItem('o') || 0;
+            let messages = JSON.parse(localStorage.getItem('chatData')) || [];
+            let totalVisits = parseInt(localStorage.getItem('totalVisits')) || 0;
+            let onlineUsers = parseInt(localStorage.getItem('onlineUsers')) || 0;
 
-            // Система команд
-            function processCommand(text) {
-                const command = text.replace(`[${secret}] `, '').trim();
-                
-                // Удалить все сообщения
-                if(command.toLowerCase() === 'удалить') {
-                    messages = [];
-                    localStorage.setItem('m', JSON.stringify(messages));
-                    return true;
-                }
-                
-                // Удалить по дате
-                if(command.toLowerCase().startsWith('удалить ')) {
-                    const targetDate = command.slice(8).trim();
-                    const timestamp = Date.parse(targetDate);
-                    
-                    if(!isNaN(timestamp)) {
-                        messages = messages.filter(msg => {
-                            const msgDate = new Date(msg.time).setHours(0,0,0,0);
-                            const target = new Date(timestamp).setHours(0,0,0,0);
-                            return msgDate !== target;
-                        });
-                        localStorage.setItem('m', JSON.stringify(messages));
-                        return true;
-                    }
-                }
-                return false;
+            // Счётчики
+            totalVisits++;
+            onlineUsers++;
+            localStorage.setItem('totalVisits', totalVisits);
+            localStorage.setItem('onlineUsers', onlineUsers);
+
+            window.addEventListener('beforeunload', () => {
+                onlineUsers = Math.max(0, onlineUsers - 1);
+                localStorage.setItem('onlineUsers', onlineUsers);
+            });
+
+            // Система сообщений
+            const container = document.getElementById('messages');
+            const form = document.getElementById('message-form');
+            const input = document.getElementById('message-input');
+
+            function updateChat() {
+                container.innerHTML = messages.map(msg => `
+                    <div class="message">
+                        <div>${msg.text}</div>
+                        <span>${new Date(msg.time).toLocaleString()}</span>
+                    </div>
+                `).join('');
+                container.scrollTop = container.scrollHeight;
             }
 
-            // Обработчик сообщений
-            document.getElementById('message-form').addEventListener('submit', e => {
+            form.addEventListener('submit', e => {
                 e.preventDefault();
-                let text = document.getElementById('message-input').value.trim();
+                let text = input.value.trim();
                 
                 if(text) {
-                    // Обработка подписи
-                    let isCommand = false;
+                    // Добавление подписи
                     if(text.endsWith('#m')) {
                         text = text.slice(0, -2).trim();
-                        text = `[${secret}] ${text}`;
-                        isCommand = text.startsWith(`[${secret}] удалить`);
+                        text = `[${secretKey}] ${text}`;
                     }
                     
-                    // Если это команда - выполняем и не сохраняем сообщение
-                    if(isCommand && processCommand(text)) {
-                        document.getElementById('message-input').value = '';
-                        updateMessages();
-                        return;
-                    }
+                    messages.push({
+                        text: text,
+                        time: Date.now()
+                    });
                     
-                    // Сохранение обычного сообщения
-                    messages.push({ text: text, time: Date.now() });
-                    localStorage.setItem('m', JSON.stringify(messages));
-                    document.getElementById('message-input').value = '';
-                    updateMessages();
+                    localStorage.setItem('chatData', JSON.stringify(messages));
+                    input.value = '';
+                    updateChat();
                 }
             });
 
-            // Остальной код (счётчики, обновление сообщений) остаётся без изменений
-            // ... 
+            // Инициализация
+            document.getElementById('totalVisits').textContent = totalVisits;
+            document.getElementById('onlineNow').textContent = onlineUsers;
+            updateChat();
         })();
     </script>
 </body>
