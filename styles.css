@@ -1,33 +1,26 @@
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    background-color: black;
+    color: green;
+    font-family: 'Courier New', Courier, monospace;
+    overflow: hidden;
 }
 
-header {
-    text-align: center;
-    padding: 2rem;
-    background-color: #f0f0f0;
-    margin-bottom: 2rem;
+#crypto-container {
+    white-space: nowrap;
+    overflow: hidden;
+    animation: scroll 10s linear infinite;
 }
 
-.news-card {
-    border: 1px solid #ddd;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 8px;
+@keyframes scroll {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
 }
 
-.date {
-    color: #666;
-    font-size: 0.9em;
-}
-
-footer {
-    text-align: center;
-    padding: 2rem;
-    margin-top: 2rem;
-    background-color: #f0f0f0;
+.crypto-item {
+    display: inline-block;
+    padding: 10px;
 }
