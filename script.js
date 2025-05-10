@@ -3,10 +3,12 @@ async function fetchCryptoData() {
     const data = await response.json();
     displayCryptoData(data);
 }
+
 function displayCryptoData(data) {
     const container = document.getElementById('crypto-container');
     container.innerHTML = ''; // Очистка контейнера перед добавлением новых данных
-   data.forEach(crypto => {
+
+    data.forEach(crypto => {
         const priceChange = crypto.price_change_percentage_1h;
         const color = priceChange > 0 ? 'green' : 'red';
         const cryptoItem = document.createElement('div');
@@ -16,5 +18,6 @@ function displayCryptoData(data) {
         container.appendChild(cryptoItem);
     });
 }
+
 fetchCryptoData();
 setInterval(fetchCryptoData, 60000); // Обновление данных каждую минуту
