@@ -3,422 +3,426 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechService - Ремонт цифровой техники</title>
+    <title>Нейросетевая Леди Вики</title>
     <style>
-        :root {
-            --dark-gray: #333333;
-            --medium-gray: #555555;
-            --light-gray: #777777;
-            --lighter-gray: #999999;
-            --lightest-gray: #eeeeee;
-            --gradient: linear-gradient(135deg, var(--dark-gray) 0%, var(--medium-gray) 100%);
-        }
-        
         body {
-            font-family: 'Arial', sans-serif;
             margin: 0;
-            padding: 0;
-            color: var(--dark-gray);
-            background-color: #f5f5f5;
-            line-height: 1.6;
+            overflow: hidden;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            font-family: 'Arial', sans-serif;
         }
         
-        .watermark-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
+        #graph-container {
+            position: absolute;
             width: 100%;
             height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" opacity="0.03"><text x="20" y="30" font-family="Arial" font-size="14" transform="rotate(45 100,100)">TechService</text></svg>');
-            z-index: -1;
         }
         
-        header {
-            background: var(--gradient);
-            color: white;
-            padding: 1rem 0;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .logo {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        
-        .tagline {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        nav {
-            margin-top: 1rem;
-        }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: background 0.3s;
-        }
-        
-        nav a:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .hero {
-            background: var(--lightest-gray);
-            padding: 3rem 0;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark-gray);
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 2rem auto;
-            color: var(--medium-gray);
-        }
-        
-        .cta-button {
-            display: inline-block;
-            background: var(--gradient);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .services {
-            padding: 3rem 0;
-            background: white;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2rem;
-            color: var(--dark-gray);
-        }
-        
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        
-        .service-card {
-            background: var(--lightest-gray);
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            transition: transform 0.3s;
-            border: 1px solid #ddd;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .service-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--medium-gray);
-        }
-        
-        .service-card h3 {
-            margin-bottom: 1rem;
-            color: var(--dark-gray);
-        }
-        
-        .about {
-            padding: 3rem 0;
-            background: var(--lightest-gray);
-        }
-        
-        .about-content {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-        
-        .about-text {
-            flex: 1;
-        }
-        
-        .about-image {
-            flex: 1;
-            background: var(--gradient);
-            height: 300px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-        
-        .contact {
-            padding: 3rem 0;
-            background: white;
-        }
-        
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--lightest-gray);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: var(--medium-gray);
-        }
-        
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: inherit;
-        }
-        
-        .form-group textarea {
-            height: 120px;
-        }
-        
-        .submit-button {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 4px;
+        .node {
+            position: absolute;
+            width: 200px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #2d2d2d;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
             cursor: pointer;
+            z-index: 10;
+        }
+        
+        .node:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            transform: translate(-50%, -50%) scale(1.05);
+            z-index: 100;
+        }
+        
+        .node.active {
+            background: #3a3a5a;
+            box-shadow: 0 0 20px rgba(100, 100, 255, 0.5);
+        }
+        
+        .node-title {
             font-weight: bold;
-            transition: background 0.3s;
+            margin-bottom: 10px;
+            color: #a0a0ff;
+            font-size: 18px;
         }
         
-        .submit-button:hover {
-            opacity: 0.9;
+        .node-content {
+            font-size: 14px;
+            line-height: 1.4;
         }
         
-        .contact-info {
-            margin-top: 3rem;
-            text-align: center;
+        .node-link {
+            color: #80c0ff;
+            text-decoration: underline;
+            cursor: pointer;
         }
         
-        .phone-link {
-            display: inline-block;
-            background: var(--gradient);
+        .node-link:hover {
+            color: #c0e0ff;
+        }
+        
+        .link {
+            position: absolute;
+            height: 2px;
+            background: rgba(100, 100, 255, 0.3);
+            transform-origin: 0 0;
+            z-index: 1;
+        }
+        
+        #search {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background: rgba(45, 45, 45, 0.9);
             color: white;
-            padding: 12px 30px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 1rem;
-            font-size: 1.2rem;
+            width: 300px;
         }
         
-        footer {
-            background: var(--gradient);
+        #controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            background: #3a3a5a;
             color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 2rem;
+            cursor: pointer;
         }
         
-        @media (max-width: 768px) {
-            .about-content {
-                flex-direction: column;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
+        button:hover {
+            background: #4a4a6a;
         }
     </style>
 </head>
 <body>
-    <div class="watermark-bg"></div>
-    
-    <header>
-        <div class="container">
-            <div class="logo">TechService</div>
-            <div class="tagline">Профессиональный ремонт цифровой техники</div>
-            <nav>
-                <a href="#services">Услуги</a>
-                <a href="#about">О нас</a>
-                <a href="#contact">Контакты</a>
-            </nav>
-        </div>
-    </header>
-    
-    <section class="hero">
-        <div class="container">
-            <h1>Ремонт цифровой техники с гарантией</h1>
-            <p>Мы ремонтируем все виды цифровой техники: от смартфонов до квадрокоптеров. Быстро, качественно и с гарантией.</p>
-            <a href="#contact" class="cta-button">Оставить заявку</a>
-        </div>
-    </section>
-    
-    <section id="services" class="services">
-        <div class="container">
-            <h2 class="section-title">Наши услуги</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">📱</div>
-                    <h3>Ремонт телефонов</h3>
-                    <p>Диагностика и ремонт смартфонов всех марок. Замена экранов, батарей, разъемов и других компонентов.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🛴</div>
-                    <h3>Ремонт самокатов</h3>
-                    <p>Ремонт электросамокатов: замена аккумуляторов, ремонт двигателей, настройка электроники.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">✈️</div>
-                    <h3>Ремонт квадрокоптеров</h3>
-                    <p>Ремонт дронов, замена пропеллеров, камер, стабилизация полета, настройка контроллеров.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">📷</div>
-                    <h3>Ремонт фотоаппаратов</h3>
-                    <p>Ремонт зеркальных и беззеркальных камер, объективов, вспышек и другой фототехники.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🧹</div>
-                    <h3>Ремонт умных пылесосов</h3>
-                    <p>Чистка, замена щеток, ремонт двигателей и электроники роботов-пылесосов.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">☕</div>
-                    <h3>Ремонт кофемашин</h3>
-                    <p>Ремонт автоматических и капсульных кофемашин, чистка, замена помп и нагревателей.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">О нашем сервисе</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>TechService - это современный сервисный центр, специализирующийся на ремонте всех видов цифровой техники. Наши специалисты имеют многолетний опыт работы и регулярно проходят обучение.</p>
-                    <p>Мы используем только оригинальные или качественные совместимые запчасти, а все работы выполняются с гарантией до 1 года.</p>
-                    <p>Наш сервисный центр оснащен современным диагностическим оборудованием, что позволяет точно определить проблему и быстро ее устранить.</p>
-                </div>
-                <div class="about-image">
-                    Наш сервисный центр
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Свяжитесь с нами</h2>
-            
-            <div class="contact-form">
-                <form id="serviceForm">
-                    <div class="form-group">
-                        <label for="name">Ваше имя</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="phone">Телефон</label>
-                        <input type="tel" id="phone" name="phone" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="device">Тип устройства</label>
-                        <select id="device" name="device" required>
-                            <option value="">Выберите устройство</option>
-                            <option value="phone">Телефон/Смартфон</option>
-                            <option value="scooter">Самокат</option>
-                            <option value="drone">Квадрокоптер</option>
-                            <option value="camera">Фотоаппарат</option>
-                            <option value="vacuum">Умный пылесос</option>
-                            <option value="coffee">Кофемашина</option>
-                            <option value="other">Другое</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="problem">Опишите проблему</label>
-                        <textarea id="problem" name="problem" required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="submit-button">Отправить заявку</button>
-                </form>
-            </div>
-            
-            <div class="contact-info">
-                <h3>Или свяжитесь с нами напрямую</h3>
-                <!-- ВАШ ТЕЛЕФОН - ЭТУ СТРОКУ НУЖНО ИЗМЕНИТЬ -->
-                <a href="tel:+79200206698" class="phone-link">+7 920) 020-66-98</a>
-                <p>Адрес: г. Нижний Новгород, ул. Октябрьской Революции, д. 70</p>
-                <p>Часы работы: Пн-Вс 10:00-20:00</p>
-            </div>
-        </div>
-    </section>
-    
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 TechService. Все права защищены.</p>
-            <p>Профессиональный ремонт цифровой техники</p>
-        </div>
-    </footer>
-    
+    <input type="text" id="search" placeholder="Поиск заметок...">
+    <div id="graph-container"></div>
+    <div id="controls">
+        <button id="center-view">Центрировать</button>
+        <button id="add-note">Добавить заметку</button>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-        document.getElementById('serviceForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
-            this.reset();
-        });
+        // Инициализация данных
+        let notes = {
+            "welcome": {
+                id: "welcome",
+                title: "Добро пожаловать",
+                content: "Это ваша нейросетевая лента заметок. Нажимайте на ссылки [[как в Obsidian]] для навигации.",
+                x: 0,
+                y: 0,
+                links: ["obsidian", "neural-network"]
+            },
+            "obsidian": {
+                id: "obsidian",
+                title: "Obsidian",
+                content: "Obsidian - это инструмент для работы с заметками, основанный на локальных Markdown-файлах. Подробнее на [[официальном сайте]].",
+                x: -200,
+                y: -150,
+                links: ["welcome", "official-site"]
+            },
+            "neural-network": {
+                id: "neural-network",
+                title: "Нейронные сети",
+                content: "Нейронные сети - это вычислительные системы, вдохновленные биологическими нейронными сетями. Читайте про [[глубокое обучение]].",
+                x: 200,
+                y: -150,
+                links: ["welcome", "deep-learning"]
+            },
+            "official-site": {
+                id: "official-site",
+                title: "Официальный сайт Obsidian",
+                content: "Официальный сайт: <a href='https://obsidian.md' target='_blank'>https://obsidian.md</a>",
+                x: -300,
+                y: -300,
+                links: ["obsidian"]
+            },
+            "deep-learning": {
+                id: "deep-learning",
+                title: "Глубокое обучение",
+                content: "Глубокое обучение - это подраздел машинного обучения, использующий многослойные нейронные сети. Связано с [[искусственным интеллектом]].",
+                x: 300,
+                y: -300,
+                links: ["neural-network", "ai"]
+            },
+            "ai": {
+                id: "ai",
+                title: "Искусственный интеллект",
+                content: "ИИ - это способность машин выполнять задачи, требующие человеческого интеллекта. Вернитесь к [[нейронные сети]] или [[добро пожаловать]].",
+                x: 400,
+                y: -450,
+                links: ["deep-learning", "welcome"]
+            }
+        };
+
+        // Инициализация графа
+        const container = document.getElementById('graph-container');
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        let activeNode = null;
+        let nodes = [];
+        let links = [];
+        
+        // Создаем узлы и связи
+        function renderGraph() {
+            // Очищаем контейнер
+            container.innerHTML = '';
+            
+            // Создаем узлы
+            Object.values(notes).forEach(note => {
+                const node = document.createElement('div');
+                node.className = 'node';
+                node.id = `node-${note.id}`;
+                node.style.left = `${width/2 + note.x}px`;
+                node.style.top = `${height/2 + note.y}px`;
+                
+                // Обрабатываем ссылки в формате [[note-id]]
+                let content = note.content;
+                content = content.replace(/\[\[(.*?)\]\]/g, (match, noteId) => {
+                    return `<span class="node-link" data-link="${noteId.toLowerCase()}">${noteId}</span>`;
+                });
+                
+                node.innerHTML = `
+                    <div class="node-title">${note.title}</div>
+                    <div class="node-content">${content}</div>
+                `;
+                
+                container.appendChild(node);
+                
+                // Добавляем обработчики событий
+                node.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('node-link')) {
+                        const linkId = e.target.getAttribute('data-link');
+                        navigateTo(linkId);
+                    } else {
+                        setActiveNode(note.id);
+                    }
+                });
+                
+                nodes.push({
+                    id: note.id,
+                    element: node,
+                    x: width/2 + note.x,
+                    y: height/2 + note.y
+                });
+            });
+            
+            // Создаем связи
+            Object.values(notes).forEach(note => {
+                note.links.forEach(linkId => {
+                    if (notes[linkId]) {
+                        const source = nodes.find(n => n.id === note.id);
+                        const target = nodes.find(n => n.id === linkId);
+                        
+                        if (source && target) {
+                            const link = document.createElement('div');
+                            link.className = 'link';
+                            
+                            // Рассчитываем позицию и длину линии
+                            const dx = target.x - source.x;
+                            const dy = target.y - source.y;
+                            const length = Math.sqrt(dx*dx + dy*dy);
+                            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                            
+                            link.style.width = `${length}px`;
+                            link.style.left = `${source.x}px`;
+                            link.style.top = `${source.y}px`;
+                            link.style.transform = `rotate(${angle}deg)`;
+                            
+                            container.appendChild(link);
+                            links.push(link);
+                        }
+                    }
+                });
+            });
+            
+            // Активируем первый узел
+            if (!activeNode && nodes.length > 0) {
+                setActiveNode(nodes[0].id);
+            }
+        }
+        
+        // Установка активного узла
+        function setActiveNode(nodeId) {
+            // Деактивируем текущий активный узел
+            if (activeNode) {
+                const prevNode = document.getElementById(`node-${activeNode}`);
+                if (prevNode) prevNode.classList.remove('active');
+            }
+            
+            // Активируем новый узел
+            activeNode = nodeId;
+            const currentNode = document.getElementById(`node-${activeNode}`);
+            if (currentNode) currentNode.classList.add('active');
+            
+            // Центрируем вид на активном узле
+            centerView();
+        }
+        
+        // Навигация к узлу
+        function navigateTo(nodeId) {
+            if (notes[nodeId]) {
+                setActiveNode(nodeId);
+            } else {
+                alert(`Заметка "${nodeId}" не найдена!`);
+            }
+        }
+        
+        // Центрирование вида на активном узле
+        function centerView() {
+            if (!activeNode) return;
+            
+            const note = notes[activeNode];
+            if (!note) return;
+            
+            // Смещаем все узлы так, чтобы активный был в центре
+            const offsetX = -note.x;
+            const offsetY = -note.y;
+            
+            Object.values(notes).forEach(n => {
+                n.x += offsetX;
+                n.y += offsetY;
+            });
+            
+            renderGraph();
+        }
+        
+        // Добавление новой заметки
+        function addNewNote() {
+            const title = prompt("Введите заголовок новой заметки:");
+            if (!title) return;
+            
+            const content = prompt("Введите содержание заметки (используйте [[ссылки]] для связей):");
+            
+            // Генерируем ID из заголовка
+            const id = title.toLowerCase().replace(/\s+/g, '-');
+            
+            if (notes[id]) {
+                alert("Заметка с таким ID уже существует!");
+                return;
+            }
+            
+            // Позиционируем новую заметку рядом с активной
+            let x = 0, y = 0;
+            if (activeNode && notes[activeNode]) {
+                x = notes[activeNode].x + (Math.random() * 200 - 100);
+                y = notes[activeNode].y + (Math.random() * 200 - 100);
+            }
+            
+            // Добавляем заметку
+            notes[id] = {
+                id,
+                title,
+                content: content || "",
+                x,
+                y,
+                links: []
+            };
+            
+            // Если есть активная заметка, создаем связь
+            if (activeNode) {
+                notes[activeNode].links.push(id);
+                notes[id].links.push(activeNode);
+            }
+            
+            renderGraph();
+            setActiveNode(id);
+        }
+        
+        // Поиск заметок
+        function setupSearch() {
+            const searchInput = document.getElementById('search');
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                
+                if (!query) {
+                    Object.values(notes).forEach(note => {
+                        const node = document.getElementById(`node-${note.id}`);
+                        if (node) node.style.display = 'block';
+                    });
+                    return;
+                }
+                
+                Object.values(notes).forEach(note => {
+                    const node = document.getElementById(`node-${note.id}`);
+                    if (node) {
+                        const matches = note.title.toLowerCase().includes(query) || 
+                                       note.content.toLowerCase().includes(query);
+                        node.style.display = matches ? 'block' : 'none';
+                    }
+                });
+            });
+        }
+        
+        // Инициализация
+        function init() {
+            renderGraph();
+            setupSearch();
+            
+            // Кнопка центрирования
+            document.getElementById('center-view').addEventListener('click', centerView);
+            
+            // Кнопка добавления заметки
+            document.getElementById('add-note').addEventListener('click', addNewNote);
+            
+            // Добавляем возможность перемещения узлов
+            let draggedNode = null;
+            let startX, startY, startNoteX, startNoteY;
+            
+            document.addEventListener('mousedown', (e) => {
+                if (e.target.classList.contains('node') && !e.target.classList.contains('node-link')) {
+                    draggedNode = e.target;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    
+                    const nodeId = draggedNode.id.replace('node-', '');
+                    const note = notes[nodeId];
+                    if (note) {
+                        startNoteX = note.x;
+                        startNoteY = note.y;
+                    }
+                }
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (draggedNode) {
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+                    
+                    const nodeId = draggedNode.id.replace('node-', '');
+                    const note = notes[nodeId];
+                    if (note) {
+                        note.x = startNoteX + dx;
+                        note.y = startNoteY + dy;
+                        renderGraph();
+                    }
+                }
+            });
+            
+            document.addEventListener('mouseup', () => {
+                draggedNode = null;
+            });
+        }
+        
+        // Запуск приложения
+        window.addEventListener('load', init);
     </script>
 </body>
 </html>
