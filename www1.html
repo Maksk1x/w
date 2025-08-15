@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моя персонализированная страница</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #121212;
+            --dark-card: #1e1e1e;
+            --dark-text: #f0f0f0;
+            --dark-border: #333;
+            --light-bg: #fff0f0; /* светлый с оттенком красного */
+            --light-card: #ffeaea;
+            --light-text: #222;
+            --light-border: #e0b8b8;
+            --primary: #ff6b6b;
+            --accent: #4ecdc4;
+            --success: #1dd1a1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+            position: relative;
+        }
+
+        body.light-theme {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+        }
+
+        /* Бегущая строка */
+        .ticker-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--dark-card);
+            border-bottom: 1px solid var(--dark-border);
+            z-index: 1000;
+            overflow: hidden;
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .light-theme .ticker-wrap {
+            background: var(--light-card);
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        .ticker {
+            display: inline-block;
+            white-space: nowrap;
+            padding-right: 100%;
+            animation: ticker 60s linear infinite;
+        }
+
+        .ticker-item {
+            display: inline-block;
+            padding: 0 30px;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .light-theme .ticker-item {
+            color: #d32f2f;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Основная сетка */
+        .container {
+            max-width: 1400px;
+            margin: 60px auto 80px;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 20px;
+        }
+
+        /* Блок часов и календаря */
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .clock-container {
+            background: var(--dark-card);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .light-theme .clock-container {
+            background: var(--light-card);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .clock-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .clock {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            border: 8px solid var(--primary);
+            border-radius: 50%;
+            background: var(--dark-card);
+        }
+
+        .light-theme .clock {
+            background: var(--light-card);
+        }
+
+        .clock-face {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform: translateY(-3px);
+        }
+
+        .hand {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: 0% 0%;
+            background: var(--dark-text);
+            border-radius: 4px;
+        }
+
+        .hour-hand {
+            width: 35%;
+            height: 6px;
+        }
+
+        .min-hand {
+            width: 45%;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .second-hand {
+            width: 48%;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        /* Календарь с погодой */
+        .weather-calendar {
+            background: var(--dark-card);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .light-theme .weather-calendar {
+            background: var(--light-card);
+        }
+
+        .weather-calendar.expanded {
+            position: fixed;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 80vh;
+            z-index: 1001;
+        }
+
+        .calendar-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .close-expanded {
+            display: none;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .weather-week {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+
+        .weather-day {
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .light-theme .weather-day {
+            background: rgba(255,255,255,0.5);
+        }
+
+        .weather-icon {
+            font-size: 24px;
+            margin: 10px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .day-name {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .temp {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .weather-details {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .month-calendar {
+            display: none;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 20px;
+        }
+
+        .month-day {
+            padding: 5px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .month-day.weekend {
+            color: var(--primary);
+        }
+
+        .month-day.today {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Блок криптовалют и бирж */
+        .crypto-block {
+            background: var(--dark-card);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+
+        .light-theme .crypto-block {
+            background: var(--light-card);
+        }
+
+        .crypto-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .exchanges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .exchange {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+        .light-theme .exchange {
+            background: rgba(0,0,0,0.05);
+        }
+
+        .exchange-flag {
+            width: 20px;
+            height: 15px;
+            margin-right: 8px;
+            border-radius: 2px;
+        }
+
+        .exchange-name {
+            margin-right: 15px;
+        }
+
+        .exchange-status {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .exchange-status.open {
+            background: var(--success);
+            color: white;
+        }
+
+        .exchange-status.closed {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .exchange-timer {
+            margin-left: 10px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .crypto-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .crypto-item {
+            display: grid;
+            grid-template-columns: 30px 80px 100px 1fr;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .light-theme .crypto-item {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .crypto-logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #f7931a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .crypto-name {
+            font-weight: bold;
+        }
+
+        .crypto-price {
+            font-weight: bold;
+        }
+
+        .crypto-change {
+            font-size: 12px;
+        }
+
+        .crypto-change.positive {
+            color: var(--success);
+        }
+
+        .crypto-change.negative {
+            color: #ff6b6b;
+        }
+
+        .crypto-chart {
+            height: 30px;
+            width: 100px;
+            margin-left: auto;
+        }
+
+        /* Блок с костями */
+        .dice-block {
+            background: var(--dark-card);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            text-align: center;
+            margin-top: 20px;
+            max-width: 500px;
+        }
+
+        .light-theme .dice-block {
+            background: var(--light-card);
+        }
+
+        .dice-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .dice-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .dice {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: #222;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .dice.rolling {
+            animation: roll 0.5s infinite;
+        }
+
+        .roll-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .roll-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+        }
+
+        .result-container {
+            margin-top: 30px;
+            min-height: 100px;
+            display: none;
+        }
+
+        .result-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--success);
+        }
+
+        .wallet-key {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            word-break: break-all;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .light-theme .wallet-key {
+            background: rgba(0,0,0,0.05);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+        }
+
+        .celebration.show {
+            display: flex;
+        }
+
+        .celebration h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--success);
+        }
+
+        .celebration p {
+            font-size: 24px;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .celebration-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Переключатель темы */
+        .theme-switch {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark-card);
+            border-radius: 30px;
+            padding: 5px;
+            display: flex;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .light-theme .theme-switch {
+            background: var(--light-card);
+        }
+
+        .switch-btn {
+            padding: 8px 20px;
+            border-radius: 30px;
+            border: none;
+            background: transparent;
+            color: var(--dark-text);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .switch-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .light-theme .switch-btn {
+            color: var(--light-text);
+        }
+
+        /* Анимации */
+        @keyframes roll {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(90deg); }
+            50% { transform: rotate(180deg); }
+            75% { transform: rotate(270deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            top: 0;
+            opacity: 0;
+            z-index: 2000;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .right-panel {
+                grid-row: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .weather-week {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .exchanges {
+                flex-direction: column;
+            }
+            
+            .dice-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Бегущая строка -->
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <span class="ticker-item">⚡️ Новости: Криптовалюта Toncoin показала рост на 15% за сутки</span>
+            <span class="ticker-item">🌍 Мировые рынки: Индекс S&P 500 обновил исторический максимум</span>
+            <span class="ticker-item">💼 Экономика: Центробанк сохранил ключевую ставку на прежнем уровне</span>
+            <span class="ticker-item">📱 Технологии: Представлен новый флагманский смартфон с ИИ-чипом</span>
+            <span class="ticker-item">💎 Инвестиции: Золото достигло $2400 за унцию</span>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Блок с костями -->
+            <div class="dice-block">
+                <h2 class="dice-title">🎲 Игра в кости 🎲</h2>
+                <p>Нажмите на кости или кнопку, чтобы сыграть. Если повезет, вы найдете биткоин-кошелек с балансом!</p>
+                
+                <div class="dice-container">
+                    <div class="dice" id="dice1">1</div>
+                    <div class="dice" id="dice2">2</div>
+                    <div class="dice" id="dice3">3</div>
+                </div>
+                
+                <button class="roll-btn">Крутить кости!</button>
+                
+                <div class="result-container" id="resultContainer">
+                    <h3 class="result-title">🎉 Поздравляем! Вы нашли кошелек с балансом! 🎉</h3>
+                    <p>Ваши кости: <span id="diceResult">6, 6, 6</span></p>
+                    <div class="wallet-key">
+                        <span id="walletAddress">bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq</span>
+                        <button class="copy-btn" onclick="copyToClipboard()">Копировать</button>
+                    </div>
+                    <p>Баланс: <span id="walletBalance">0.042 BTC</span> ($1,800)</p>
+                    <p>Обязательно сохраните этот приватный ключ в безопасном месте!</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-panel">
+            <!-- Часы -->
+            <div class="clock-container">
+                <h3 class="clock-title">⏰ Москва</h3>
+                <div class="clock">
+                    <div class="clock-face">
+                        <div class="hand hour-hand"></div>
+                        <div class="hand min-hand"></div>
+                        <div class="hand second-hand"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Календарь с погодой -->
+            <div class="weather-calendar" id="weatherCalendar">
+                <div class="calendar-title">
+                    <h3>📅 Календарь & Погода</h3>
+                    <button class="close-expanded" id="closeCalendar">✕</button>
+                </div>
+                <div class="weather-week">
+                    <div class="weather-day">
+                        <div class="day-name">Пн</div>
+                        <div class="weather-icon">☀️</div>
+                        <div class="temp">24°</div>
+                        <div class="weather-details">Влаж: 45%</div>
+                    </div>
+                    <div class="weather-day">
+                        <div class="day-name">Вт</div>
+                        <div class="weather-icon">⛅</div>
+                        <div class="temp">22°</div>
+                        <div class="weather-details">Влаж: 50%</div>
+                    </div>
+                    <div class="weather-day">
+                        <div class="day-name">Ср</div>
+                        <div class="weather-icon">🌧️</div>
+                        <div class="temp">18°</div>
+                        <div class="weather-details">Влаж: 85%</div>
+                    </div>
+                    <div class="weather-day">
+                        <div class="day-name">Чт</div>
+                        <div class="weather-icon">🌦️</div>
+                        <div class="temp">20°</div>
+                        <div class="weather-details">Влаж: 65%</div>
+                    </div>
+                    <div class="weather-day">
+                        <div class="day-name">Пт</div>
+                        <div class="weather-icon">☀️</div>
+                        <div class="temp">25°</div>
+                        <div class="weather-details">Влаж: 40%</div>
+                    </div>
+                    <div class="weather-day">
+                        <div class="day-name">Сб</div>
+                        <div class="weather-icon">🌤️</div>
+                        <div class="temp">23°</div>
+                        <div class="weather-details">Влаж: 55%</div>
+                    </div>
+                    <div class="weather-day">
+                        <div class="day-name">Вс</div>
+                        <div class="weather-icon">🌙</div>
+                        <div class="temp">19°</div>
+                        <div class="weather-details">Влаж: 60%</div>
+                    </div>
+                </div>
+                <div class="month-calendar" id="monthCalendar">
+                    <!-- Месячный календарь будет сгенерирован через JS -->
+                </div>
+            </div>
+            
+            <!-- Блок криптовалют и бирж -->
+            <div class="crypto-block">
+                <h3 class="crypto-title">📊 Крипторынок & Биржи</h3>
+                
+                <div class="exchanges">
+                    <div class="exchange">
+                        <div class="exchange-flag" style="background: linear-gradient(to bottom, #d52b1e, #d52b1e 33%, #0038a8 33%, #0038a8 66%, #fff 66%);"></div>
+                        <span class="exchange-name">NYSE</span>
+                        <span class="exchange-status open">Открыто</span>
+                        <span class="exchange-timer">Закроется через 4:15</span>
+                    </div>
+                    <div class="exchange">
+                        <div class="exchange-flag" style="background: linear-gradient(to bottom, #c8102e, #c8102e 50%, #fff 50%);"></div>
+                        <span class="exchange-name">NASDAQ</span>
+                        <span class="exchange-status open">Открыто</span>
+                        <span class="exchange-timer">Закроется через 4:15</span>
+                    </div>
+                    <div class="exchange">
+                        <div class="exchange-flag" style="background: linear-gradient(to right, #de2910, #de2910 33%, #ffde00 33%, #ffde00 66%, #de2910 66%);"></div>
+                        <span class="exchange-name">Чикагская</span>
+                        <span class="exchange-status open">Открыто</span>
+                        <span class="exchange-timer">Закроется через 3:45</span>
+                    </div>
+                </div>
+                
+                <div class="crypto-list">
+                    <div class="crypto-item">
+                        <div class="crypto-logo">B</div>
+                        <div class="crypto-name">Bitcoin</div>
+                        <div class="crypto-price">$42,800</div>
+                        <div class="crypto-change positive">+1.2%</div>
+                        <canvas class="crypto-chart" id="btcChart"></canvas>
+                    </div>
+                    <div class="crypto-item">
+                        <div class="crypto-logo" style="background: #3c3c3d;">E</div>
+                        <div class="crypto-name">Ethereum</div>
+                        <div class="crypto-price">$2,540</div>
+                        <div class="crypto-change positive">+0.8%</div>
+                        <canvas class="crypto-chart" id="ethChart"></canvas>
+                    </div>
+                    <div class="crypto-item">
+                        <div class="crypto-logo" style="background: #b8860b;">X</div>
+                        <div class="crypto-name">Xaut</div>
+                        <div class="crypto-price">$2,400</div>
+                        <div class="crypto-change negative">-0.3%</div>
+                        <canvas class="crypto-chart" id="xautChart"></canvas>
+                    </div>
+                    <div class="crypto-item">
+                        <div class="crypto-logo" style="background: #0088cc;">T</div>
+                        <div class="crypto-name">Toncoin</div>
+                        <div class="crypto-price">$5.20</div>
+                        <div class="crypto-change positive">+15.7%</div>
+                        <canvas class="crypto-chart" id="tonChart"></canvas>
+                    </div>
+                    <div class="crypto-item">
+                        <div class="crypto-logo" style="background: #000;">N</div>
+                        <div class="crypto-name">Notcoin</div>
+                        <div class="crypto-price">$0.008</div>
+                        <div class="crypto-change negative">-2.1%</div>
+                        <canvas class="crypto-chart" id="notChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Анимация поздравления -->
+    <div class="celebration" id="celebration">
+        <h1>🎉 ПОЗДРАВЛЯЕМ! 🎉</h1>
+        <p>Вы нашли биткоин-кошелек с балансом! Обязательно сохраните приватный ключ в безопасном месте.</p>
+        <button class="celebration-btn" onclick="closeCelebration()">Продолжить</button>
+    </div>
+    
+    <!-- Переключатель темы -->
+    <div class="theme-switch">
+        <button class="switch-btn active" id="darkBtn">Тёмная</button>
+        <button class="switch-btn" id="lightBtn">Светлая</button>
+    </div>
+
+    <script>
+        // Переключение темы
+        const darkBtn = document.getElementById('darkBtn');
+        const lightBtn = document.getElementById('lightBtn');
+        const body = document.body;
+        
+        darkBtn.addEventListener('click', () => {
+            body.classList.remove('light-theme');
+            darkBtn.classList.add('active');
+            lightBtn.classList.remove('active');
+            localStorage.setItem('theme', 'dark');
+        });
+        
+        lightBtn.addEventListener('click', () => {
+            body.classList.add('light-theme');
+            lightBtn.classList.add('active');
+            darkBtn.classList.remove('active');
+            localStorage.setItem('theme', 'light');
+        });
+        
+        // Проверка сохраненной темы
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            body.classList.add('light-theme');
+            lightBtn.classList.add('active');
+            darkBtn.classList.remove('active');
+        }
+        
+        // Часы
+        function updateClock() {
+            const now = new Date();
+            const seconds = now.getSeconds();
+            const mins = now.getMinutes();
+            const hours = now.getHours() % 12;
+            
+            const secondHand = document.querySelector('.second-hand');
+            const minHand = document.querySelector('.min-hand');
+            const hourHand = document.querySelector('.hour-hand');
+            
+            const secondsDeg = ((seconds / 60) * 360) + 90;
+            const minsDeg = ((mins / 60) * 360) + ((seconds/60)*6) + 90;
+            const hoursDeg = ((hours / 12) * 360) + ((mins/60)*30) + 90;
+            
+            secondHand.style.transform = `rotate(${secondsDeg}deg)`;
+            minHand.style.transform = `rotate(${minsDeg}deg)`;
+            hourHand.style.transform = `rotate(${hoursDeg}deg)`;
+        }
+        
+        setInterval(updateClock, 1000);
+        updateClock();
+        
+        // Календарь
+        const weatherCalendar = document.getElementById('weatherCalendar');
+        const monthCalendar = document.getElementById('monthCalendar');
+        const closeCalendar = document.getElementById('closeCalendar');
+        
+        weatherCalendar.addEventListener('click', function() {
+            if (!this.classList.contains('expanded')) {
+                this.classList.add('expanded');
+                closeCalendar.style.display = 'block';
+                generateMonthCalendar();
+            }
+        });
+        
+        closeCalendar.addEventListener('click', function(e) {
+            e.stopPropagation();
+            weatherCalendar.classList.remove('expanded');
+            this.style.display = 'none';
+        });
+        
+        function generateMonthCalendar() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const firstDay = new Date(year, month, 1).getDay();
+            
+            monthCalendar.innerHTML = '';
+            monthCalendar.style.display = 'grid';
+            
+            // Дни недели
+            const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+            days.forEach(day => {
+                const dayEl = document.createElement('div');
+                dayEl.classList.add('month-day');
+                dayEl.textContent = day;
+                dayEl.style.fontWeight = 'bold';
+                monthCalendar.appendChild(dayEl);
+            });
+            
+            // Пустые ячейки для начала месяца
+            for (let i = 0; i < (firstDay === 0 ? 6 : firstDay - 1); i++) {
+                const empty = document.createElement('div');
+                empty.classList.add('month-day');
+                monthCalendar.appendChild(empty);
+            }
+            
+            // Дни месяца
+            const today = now.getDate();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayEl = document.createElement('div');
+                dayEl.classList.add('month-day');
+                dayEl.textContent = day;
+                
+                // Помечаем выходные
+                const dayOfWeek = new Date(year, month, day).getDay();
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    dayEl.classList.add('weekend');
+                }
+                
+                // Помечаем сегодняшний день
+                if (day === today) {
+                    dayEl.classList.add('today');
+                }
+                
+                monthCalendar.appendChild(dayEl);
+            }
+        }
+        
+        // Кости
+        const diceElements = document.querySelectorAll('.dice');
+        const rollBtn = document.querySelector('.roll-btn');
+        const resultContainer = document.getElementById('resultContainer');
+        const diceResult = document.getElementById('diceResult');
+        const walletAddress = document.getElementById('walletAddress');
+        const walletBalance = document.getElementById('walletBalance');
+        const celebration = document.getElementById('celebration');
+        
+        function rollDice() {
+            // Анимация вращения
+            diceElements.forEach(dice => {
+                dice.classList.add('rolling');
+                dice.textContent = '';
+            });
+            
+            // Отключение кнопки на время анимации
+            rollBtn.disabled = true;
+            
+            // Генерация результатов
+            setTimeout(() => {
+                const results = [];
+                let sum = 0;
+                
+                diceElements.forEach((dice, index) => {
+                    const value = Math.floor(Math.random() * 6) + 1;
+                    results.push(value);
+                    sum += value;
+                    
+                    dice.textContent = value;
+                    dice.classList.remove('rolling');
+                });
+                
+                diceResult.textContent = results.join(', ');
+                
+                // Проверка на выигрыш (шанс 5%)
+                if (Math.random() < 0.05) {
+                    // Генерация случайного кошелька
+                    const wallet = generateBitcoinWallet();
+                    walletAddress.textContent = wallet.address;
+                    walletBalance.textContent = `${wallet.balance.toFixed(3)} BTC ($${(wallet.balance * 42000).toFixed(0)})`;
+                    
+                    // Показываем результат
+                    setTimeout(() => {
+                        resultContainer.style.display = 'block';
+                        celebration.classList.add('show');
+                        createConfetti();
+                    }, 500);
+                }
+                
+                rollBtn.disabled = false;
+            }, 2000);
+        }
+        
+        function generateBitcoinWallet() {
+            const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+            let address = 'bc1';
+            
+            // Генерация случайного адреса
+            for (let i = 0; i < 32; i++) {
+                address += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            
+            // Случайный баланс (0.001 - 0.1 BTC)
+            const balance = Math.random() * 0.099 + 0.001;
+            
+            return {
+                address: address,
+                balance: balance
+            };
+        }
+        
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#1dd1a1', '#f9c74f', '#90be6d', '#577590'];
+            
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animation = `confetti ${Math.random() * 3 + 2}s linear forwards`;
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+        
+        function closeCelebration() {
+            celebration.classList.remove('show');
+        }
+        
+        function copyToClipboard() {
+            navigator.clipboard.writeText(walletAddress.textContent)
+                .then(() => {
+                    const copyBtn = document.querySelector('.copy-btn');
+                    copyBtn.textContent = 'Скопировано!';
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Копировать';
+                    }, 2000);
+                });
+        }
+        
+        // Обработчики событий
+        diceElements.forEach(dice => {
+            dice.addEventListener('click', rollDice);
+        });
+        
+        rollBtn.addEventListener('click', rollDice);
+        
+        // Инициализация графиков (упрощенная версия)
+        function initCharts() {
+            const coins = ['btc', 'eth', 'xaut', 'ton', 'not'];
+            coins.forEach(coin => {
+                const canvas = document.getElementById(`${coin}Chart`);
+                const ctx = canvas.getContext('2d');
+                const width = canvas.width;
+                const height = canvas.height;
+                
+                // Создаем случайный график
+                ctx.beginPath();
+                ctx.moveTo(0, height / 2);
+                
+                let prevY = height / 2;
+                for (let x = 1; x < width; x += 5) {
+                    const y = prevY + (Math.random() * 20 - 10);
+                    ctx.lineTo(x, y);
+                    prevY = y;
+                }
+                
+                ctx.strokeStyle = coin === 'ton' ? '#1dd1a1' : 
+                                  coin === 'btc' || coin === 'eth' ? '#4ecdc4' : '#ff6b6b';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            });
+        }
+        
+        // Инициализация при загрузке
+        window.onload = initCharts;
+    </script>
+</body>
+</html>
