@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechService - Ремонт цифровой техники</title>
+    <style>
+        :root {
+            --dark-gray: #333333;
+            --medium-gray: #555555;
+            --light-gray: #777777;
+            --lighter-gray: #999999;
+            --lightest-gray: #eeeeee;
+            --gradient: linear-gradient(135deg, var(--dark-gray) 0%, var(--medium-gray) 100%);
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--dark-gray);
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        
+        .watermark-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" opacity="0.03"><text x="20" y="30" font-family="Arial" font-size="14" transform="rotate(45 100,100)">TechService</text></svg>');
+            z-index: -1;
+        }
+        
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo-section {
+            text-align: left;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+        
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .contacts-header {
+            text-align: right;
+        }
+        
+        .header-phone {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .header-address {
+            font-size: 0.9rem;
+        }
+        
+        .contact-link {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .contact-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+        
+        nav {
+            background: rgba(0,0,0,0.1);
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        /* Боковые колонки для контента */
+        .sidebar {
+            width: 250px;
+            padding: 20px 0;
+        }
+        
+        .content-block {
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .main-content {
+            flex: 1;
+        }
+        
+        .hero {
+            background: var(--lightest-gray);
+            padding: 3rem 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-gray);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+            color: var(--medium-gray);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .services {
+            padding: 3rem 0;
+            background: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--dark-gray);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .service-card {
+            background: var(--lightest-gray);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+            border: 1px solid #ddd;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--medium-gray);
+        }
+        
+        .service-card h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-gray);
+        }
+        
+        /* Секция блога */
+        .blog-section {
+            padding: 3rem 0;
+            background: var(--lightest-gray);
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .blog-post {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .blog-content {
+            padding: 20px;
+        }
+        
+        .about {
+            padding: 3rem 0;
+            background: var(--lightest-gray);
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-image {
+            flex: 1;
+            background: var(--gradient);
+            height: 300px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .contact {
+            padding: 3rem 0;
+            background: white;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--lightest-gray);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--medium-gray);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        
+        .form-group textarea {
+            height: 120px;
+        }
+        
+        .submit-button {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .submit-button:hover {
+            opacity: 0.9;
+        }
+        
+        .contact-info {
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .phone-link {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .highlight-phone {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--dark-gray);
+            margin: 15px 0;
+            background: rgba(0,0,0,0.05);
+            padding: 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        footer {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        /* Плавающая кнопка доната */
+        .donate-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .content-block {
+                flex: 1;
+                min-width: 250px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .contacts-header {
+                text-align: center;
+                margin-top: 15px;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .donate-button {
+                bottom: 20px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="watermark-bg"></div>
+    
+    <!-- Плавающая кнопка доната -->
+    <a href="https://pay.cloudtips.ru/p/6ccaafce" class="donate-button">
+        <span>💎</span> <!-- Можно заменить на свою картинку -->
+    </a>
+    
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo">TechService</div>
+                <div class="tagline">Профессиональный ремонт цифровой техники</div>
+            </div>
+            <div class="contacts-header">
+                <div class="header-phone">
+                    <a href="tel:+79200206698" class="contact-link">+7 (920) 020-66-98</a>
+                </div>
+                <div class="header-address">
+                    <a href="https://yandex.ru/maps/?text=г. Нижний Новгород, ул. Октябрьской Революции, д. 70" 
+                       target="_blank" 
+                       class="contact-link">
+                        г. Нижний Новгород, ул. Октябрьской Революции, д. 70
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <nav>
+            <a href="#services">Услуги</a>
+            <a href="#about">О нас</a>
+            <a href="#contact">Контакты</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <!-- ЛЕВЫЙ САЙДБАР - МЕСТО ДЛЯ ВАШЕГО КОНТЕНТА -->
+        <div class="sidebar">
+            <div class="content-block">
+                <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
+                <h3>Советы по уходу</h3>
+                <p>Регулярно очищайте технику от пыли для предотвращения перегрева.</p>
+                <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
+            </div>
+            
+            <div class="content-block">
+                <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
+                <h3>Акции</h3>
+                <p>Чистка ноутбука + замена термопасты - всего 1500 рублей!</p>
+                <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
+            </div>
+        </div>
+        
+        <!-- ОСНОВНОЙ КОНТЕНТ -->
+        <div class="main-content">
+            <section class="hero">
+                <h1>Ремонт цифровой техники с гарантией</h1>
+                <p>Мы ремонтируем все виды цифровой техники: от смартфонов до компьютеров. Быстро, качественно и с гарантией.</p>
+                <a href="#contact" class="cta-button">Оставить заявку</a>
+            </section>
+            
+            <section id="services" class="services">
+                <h2 class="section-title">Наши услуги</h2>
+                <div class="services-grid">
+                    <!-- Услуги... -->
+                </div>
+            </section>
+            
+            <!-- СЕКЦИЯ БЛОГА -->
+            <section class="blog-section">
+                <h2 class="section-title">Полезные статьи</h2>
+                <div class="blog-grid">
+                    <div class="blog-post">
+                        <!-- ====== НАЧАЛО БЛОГ-ПОСТА ====== -->
+                        <div class="blog-content">
+                            <h3>Как продлить жизнь аккумулятору</h3>
+                            <p>Простые советы по уходу за батареей вашего устройства...</p>
+                        </div>
+                        <!-- ====== КОНЕЦ БЛОГ-ПОСТА ====== -->
+                    </div>
+                    
+                    <div class="blog-post">
+                        <!-- ====== НАЧАЛО БЛОГ-ПОСТА ====== -->
+                        <div class="blog-content">
+                            <h3>Выбор между ремонтом и покупкой</h3>
+                            <p>Когда выгоднее отремонтировать технику, а когда купить новую...</p>
+                        </div>
+                        <!-- ====== КОНЕЦ БЛОГ-ПОСТА ====== -->
+                    </div>
+                </div>
+            </section>
+            
+            <section id="about" class="about">
+                <h2 class="section-title">О нашем сервисе</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <!-- ====== НАЧАЛО ТЕКСТОВОГО БЛОКА ====== -->
+                        <p>TechService - это современный сервисный центр, специализирующийся на ремонте всех видов цифровой техники.</p>
+                        <!-- ====== КОНЕЦ ТЕКСТОВОГО БЛОКА ====== -->
+                    </div>
+                    <div class="about-image">
+                        Наш сервисный центр
+                    </div>
+                </div>
+            </section>
+            
+            <section id="contact" class="contact">
+                <!-- Контактная форма... -->
+            </section>
+        </div>
+        
+        <!-- ПРАВЫЙ САЙДБАР - МЕСТО ДЛЯ ВАШЕГО КОНТЕНТА -->
+        <div class="sidebar">
+            <div class="content-block">
+                <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
+                <h3>Отзывы</h3>
+                <p>"Отлично починили ноутбук за 1 день!" - Иван С.</p>
+                <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
+            </div>
+            
+            <div class="content-block">
+                <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
+                <h3>Новинки</h3>
+                <p>Теперь ремонтируем игровые консоли нового поколения</p>
+                <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 TechService. Все права защищены.</p>
+            <p>Профессиональный ремонт цифровой техники</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('serviceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
