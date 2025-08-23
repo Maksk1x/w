@@ -13,6 +13,10 @@
             --lightest-gray: #eeeeee;
             --gradient: linear-gradient(135deg, #1a2a6c 0%, #2a4d8e 100%);
             --accent: #ff6b00;
+            --purple-primary: #8a2be2;
+            --purple-secondary: #9370db;
+            --purple-dark: #4b0082;
+            --purple-light: #e6e6fa;
         }
         
         * {
@@ -38,7 +42,7 @@
             background-image: url('https://maksk1x.github.io/w/img/baksc.jpg');
             background-size: cover;
             background-position: center;
-            opacity: 0.1;
+            opacity: 0.25;
             z-index: -1;
         }
         
@@ -357,7 +361,7 @@
         
         /* Тетрис */
         .tetris-container {
-            background: #2c3e50;
+            background: var(--purple-dark);
             padding: 10px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -375,17 +379,17 @@
         }
         
         .score-display {
-            background: #34495e;
+            background: var(--purple-primary);
             padding: 5px 10px;
             border-radius: 4px;
             font-weight: bold;
         }
         
         #tetris {
-            background: #1a1a2e;
+            background: var(--purple-primary);
             display: block;
             margin: 0 auto;
-            border: 2px solid #3498db;
+            border: 2px solid var(--purple-secondary);
         }
         
         .tetris-controls {
@@ -396,7 +400,7 @@
         }
         
         .tetris-btn {
-            background: #3498db;
+            background: var(--purple-secondary);
             color: white;
             border: none;
             padding: 8px 15px;
@@ -405,10 +409,15 @@
             font-size: 1rem;
             font-weight: bold;
             min-width: 80px;
+            transition: background 0.3s;
         }
         
         .tetris-btn:hover {
-            background: #2980b9;
+            background: var(--purple-primary);
+        }
+        
+        .tetris-btn:active {
+            transform: translateY(2px);
         }
         
         .mobile-controls {
@@ -420,7 +429,7 @@
         }
         
         .mobile-btn {
-            background: #3498db;
+            background: var(--purple-secondary);
             color: white;
             border: none;
             padding: 12px;
@@ -428,10 +437,11 @@
             font-size: 1.4rem;
             cursor: pointer;
             min-height: 50px;
+            transition: background 0.3s;
         }
         
         .mobile-btn:active {
-            background: #2980b9;
+            background: var(--purple-primary);
         }
         
         .mobile-btn.rotate {
@@ -454,59 +464,98 @@
             grid-row: 2;
         }
         
-        /* Пинг-понг */
-        .pong-container {
+        /* Тамагочи */
+        .tamagotchi-container {
             background: #2c3e50;
-            padding: 10px;
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             margin-top: 20px;
+            text-align: center;
+            color: white;
         }
         
-        .pong-header {
-            color: white;
-            text-align: center;
-            margin-bottom: 10px;
+        .tamagotchi-header {
+            margin-bottom: 15px;
             font-size: 1.2rem;
+        }
+        
+        .tamagotchi-pet {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tamagotchi-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .stat {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
-        #pong {
-            background: #1a1a2e;
-            display: block;
-            margin: 0 auto;
-            border: 2px solid #3498db;
+        .stat-label {
+            font-size: 0.9rem;
         }
         
-        .pong-controls {
-            display: flex;
-            justify-content: center;
+        .stat-bar {
+            width: 60%;
+            height: 12px;
+            background: #34495e;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .stat-value {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.3s;
+        }
+        
+        .hunger-value {
+            background: #e74c3c;
+        }
+        
+        .happiness-value {
+            background: #2ecc71;
+        }
+        
+        .energy-value {
+            background: #3498db;
+        }
+        
+        .tamagotchi-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 10px;
-            margin-top: 10px;
         }
         
-        .pong-btn {
+        .tamagotchi-btn {
             background: #3498db;
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 8px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            min-width: 80px;
+            font-size: 0.9rem;
+            transition: background 0.3s;
         }
         
-        .pong-btn:hover {
+        .tamagotchi-btn:hover {
             background: #2980b9;
-        }
-        
-        .pong-slider {
-            width: 100%;
-            margin-top: 10px;
-            height: 20px;
         }
         
         .service-image {
@@ -536,7 +585,7 @@
                 min-width: 250px;
             }
             
-            .tetris-container, .pong-container {
+            .tetris-container, .tamagotchi-container {
                 order: 1;
                 width: 100%;
                 margin-top: 0;
@@ -578,16 +627,19 @@
                 min-height: 160px;
             }
             
-            .tetris-btn, .pong-btn {
+            .tetris-btn, .tamagotchi-btn {
                 padding: 6px 12px;
                 font-size: 0.9rem;
-                min-width: 70px;
             }
             
             .mobile-btn {
                 padding: 10px;
                 font-size: 1.2rem;
                 min-height: 45px;
+            }
+            
+            .tamagotchi-controls {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -639,30 +691,31 @@
         <div class="sidebar">
             <div class="content-block">
                 <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
-                <h3>Создание сайтов</h3>
+                <h3>Веб-разработка</h3>
                 <div class="service-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><rect x=\"10\" y=\"20\" width=\"80\" height=\"60\" fill=\"%233a7bd5\" rx=\"5\" ry=\"5\"/><rect x=\"15\" y=\"30\" width=\"20\" height=\"10\" fill=\"%23ffffff\"/><rect x=\"40\" y=\"30\" width=\"45\" height=\"10\" fill=\"%23ffffff\"/><rect x=\"15\" y=\"45\" width=\"70\" height=\"10\" fill=\"%23ffffff\"/><rect x=\"15\" y=\"60\" width=\"70\" height=\"10\" fill=\"%23ffffff\"/><circle cx=\"85\" y=\"75\" r=\"5\" fill=\"%23ff6b6b\"/></svg>')"></div>
-                <p>Заказ и установка одностраничных сайтов подобно этому всего от 1000р!</p>
+                <p>Создаем современные одностраничные сайты для вашего бизнеса. От идеи до реализации под ключ. Привлекательный дизайн и адаптивная верстка.</p>
                 <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
             </div>
             
             <div class="content-block">
                 <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
-                <h3>Отцифровка материалов</h3>
+                <h3>Оцифровка воспоминаний</h3>
                 <div class="service-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><rect x=\"20\" y=\"25\" width=\"60\" height=\"45\" fill=\"%23f9f9f9\" stroke=\"%23333\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"40\" r=\"10\" fill=\"%23ff6b00\"/><rect x=\"40\" y=\"55\" width=\"20\" height=\"10\" fill=\"%23333\"/><path d=\"M30,75 L70,75 L65,90 L35,90 Z\" fill=\"%23333\"/><rect x=\"25\" y=\"30\" width=\"5\" height=\"5\" fill=\"%23ff6b00\"/><rect x=\"70\" y=\"30\" width=\"5\" height=\"5\" fill=\"%23ff6b00\"/></svg>')"></div>
-                <p>Отцифровка старых фото и видео. Перенос на цифровые носители.</p>
+                <p>Превратим ваши старые фото и видеокассеты в цифровые файлы. Сохраним драгоценные моменты для будущих поколений. Качественная обработка и реставрация.</p>
                 <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
             </div>
             
             <!-- Мини-игра Тетрис -->
             <div class="tetris-container">
                 <div class="tetris-header">
-                    <div>Игра Тетрис</div>
+                    <div>Тетрис</div>
                     <div class="score-display">Очки: <span id="tetrisScore">0</span></div>
                 </div>
                 <canvas id="tetris" width="200" height="300"></canvas>
                 <div class="tetris-controls">
                     <button class="tetris-btn" id="startBtn">Старт</button>
                     <button class="tetris-btn" id="pauseBtn">Пауза</button>
+                    <button class="tetris-btn" id="resetBtn">Сброс</button>
                 </div>
                 
                 <div class="mobile-controls">
@@ -770,18 +823,39 @@
                 <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
             </div>
             
-            <!-- Мини-игра Пинг-понг -->
-            <div class="pong-container">
-                <div class="pong-header">
-                    <div>Игра Пинг-понг</div>
-                    <div class="score-display">Счёт: <span id="pongScore">0:0</span></div>
+            <!-- Мини-игра Тамагочи -->
+            <div class="tamagotchi-container">
+                <div class="tamagotchi-header">
+                    <h3>Виртуальный питомец</h3>
                 </div>
-                <canvas id="pong" width="200" height="200"></canvas>
-                <div class="pong-controls">
-                    <button class="pong-btn" id="pongStartBtn">Старт</button>
-                    <button class="pong-btn" id="pongPauseBtn">Пауза</button>
+                <div class="tamagotchi-pet" id="tamagotchiPet">
+                    🐱
                 </div>
-                <input type="range" min="0" max="200" value="100" class="pong-slider" id="pongSlider">
+                <div class="tamagotchi-stats">
+                    <div class="stat">
+                        <span class="stat-label">Голод:</span>
+                        <div class="stat-bar">
+                            <div class="stat-value hunger-value" id="hungerBar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Счастье:</span>
+                        <div class="stat-bar">
+                            <div class="stat-value happiness-value" id="happinessBar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Энергия:</span>
+                        <div class="stat-bar">
+                            <div class="stat-value energy-value" id="energyBar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tamagotchi-controls">
+                    <button class="tamagotchi-btn" id="feedBtn">Покормить</button>
+                    <button class="tamagotchi-btn" id="playBtn">Поиграть</button>
+                    <button class="tamagotchi-btn" id="sleepBtn">Уложить спать</button>
+                </div>
             </div>
         </div>
     </div>
@@ -792,6 +866,7 @@
         const tetrisCtx = tetrisCanvas.getContext('2d');
         const startBtn = document.getElementById('startBtn');
         const pauseBtn = document.getElementById('pauseBtn');
+        const resetBtn = document.getElementById('resetBtn');
         const tetrisScoreElement = document.getElementById('tetrisScore');
         
         // Кнопки для мобильных устройств
@@ -818,15 +893,15 @@
             [[1, 1, 0], [0, 1, 1]]  // Z
         ];
         
-        // Цвета фигур
+        // Фиолетовые цвета фигур
         const COLORS = [
-            '#00f0f0', // I - голубой
-            '#a000f0', // T - фиолетовый
-            '#f0a000', // L - оранжевый
-            '#0000f0', // J - синий
-            '#f0f000', // O - желтый
-            '#00f000', // S - зеленый
-            '#f00000'  // Z - красный
+            '#9370DB', // I
+            '#8A2BE2', // T
+            '#9932CC', // L
+            '#8B008B', // J
+            '#BA55D3', // O
+            '#DA70D6', // S
+            '#D8BFD8'  // Z
         ];
         
         // Игровое поле
@@ -835,6 +910,8 @@
         let gameInterval = null;
         let isPaused = false;
         let score = 0;
+        let level = 1;
+        let linesCleared = 0;
         
         // Инициализация игрового поля
         function initBoard() {
@@ -857,6 +934,14 @@
         // Отрисовка игрового поля
         function drawBoard() {
             tetrisCtx.clearRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
+            
+            // Отрисовка сетки
+            tetrisCtx.strokeStyle = '#6A5ACD';
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    tetrisCtx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                }
+            }
             
             // Отрисовка статичных блоков
             for (let y = 0; y < ROWS; y++) {
@@ -884,8 +969,13 @@
             tetrisCtx.fillStyle = COLORS[colorIndex];
             tetrisCtx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
             
-            tetrisCtx.strokeStyle = '#000';
+            tetrisCtx.strokeStyle = '#4B0082';
             tetrisCtx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+            
+            // Добавляем эффект объема
+            tetrisCtx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            tetrisCtx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, 3);
+            tetrisCtx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, 3, BLOCK_SIZE);
         }
         
         // Движение фигуры вниз
@@ -937,7 +1027,7 @@
         // Фиксация фигуры на поле
         function lockPiece() {
             currentPiece.shape.forEach((row, y) => {
-                row.forEach((value, x) => {
+                row.forEach((value, x) {
                     if (value) {
                         const boardY = currentPiece.y + y;
                         if (boardY >= 0) {
@@ -965,7 +1055,20 @@
             }
             
             if (lines > 0) {
-                score += [0, 100, 300, 500, 800][lines];
+                // Увеличиваем счет в зависимости от количества линий
+                const points = [0, 100, 300, 500, 800];
+                score += points[lines] * level;
+                linesCleared += lines;
+                
+                // Повышаем уровень каждые 10 линий
+                level = Math.floor(linesCleared / 10) + 1;
+                
+                // Обновляем скорость игры
+                if (gameInterval) {
+                    clearInterval(gameInterval);
+                    gameInterval = setInterval(moveDown, Math.max(100, 500 - (level-1)*50));
+                }
+                
                 tetrisScoreElement.textContent = score;
             }
         }
@@ -989,12 +1092,17 @@
                 case 'ArrowUp':
                     rotatePiece();
                     break;
+                case ' ': // Пробел - мгновенное падение
+                    hardDrop();
+                    break;
             }
             drawBoard();
         });
         
         // Поворот фигуры
         function rotatePiece() {
+            if (!currentPiece) return;
+            
             const originalShape = currentPiece.shape;
             
             // Транспонирование матрицы
@@ -1012,18 +1120,33 @@
             }
         }
         
+        // Мгновенное падение
+        function hardDrop() {
+            if (!currentPiece) return;
+            
+            while (!checkCollision()) {
+                currentPiece.y++;
+            }
+            currentPiece.y--;
+            moveDown(); // Для немедленной фиксации
+        }
+        
         // Начало игры
         startBtn.addEventListener('click', () => {
             if (gameInterval) {
+                // Остановка игры
                 clearInterval(gameInterval);
                 gameInterval = null;
                 startBtn.textContent = 'Старт';
-                isPaused = true;
+                isPaused = false;
                 pauseBtn.textContent = 'Пауза';
             } else {
+                // Запуск игры
                 initBoard();
                 currentPiece = createPiece();
                 score = 0;
+                level = 1;
+                linesCleared = 0;
                 tetrisScoreElement.textContent = score;
                 gameInterval = setInterval(moveDown, 500);
                 startBtn.textContent = 'Стоп';
@@ -1036,17 +1159,36 @@
         pauseBtn.addEventListener('click', () => {
             if (gameInterval) {
                 if (isPaused) {
-                    gameInterval = setInterval(moveDown, 500);
+                    // Продолжить игру
+                    gameInterval = setInterval(moveDown, Math.max(100, 500 - (level-1)*50));
                     pauseBtn.textContent = 'Пауза';
                     isPaused = false;
                 } else {
+                    // Поставить на паузу
                     clearInterval(gameInterval);
                     gameInterval = null;
                     pauseBtn.textContent = 'Продолжить';
                     isPaused = true;
                 }
-                drawBoard();
             }
+        });
+        
+        // Сброс игры
+        resetBtn.addEventListener('click', () => {
+            if (gameInterval) {
+                clearInterval(gameInterval);
+                gameInterval = null;
+            }
+            initBoard();
+            currentPiece = createPiece();
+            score = 0;
+            level = 1;
+            linesCleared = 0;
+            tetrisScoreElement.textContent = score;
+            startBtn.textContent = 'Старт';
+            pauseBtn.textContent = 'Пауза';
+            isPaused = false;
+            drawBoard();
         });
         
         // Кнопки для мобильных устройств
@@ -1079,176 +1221,92 @@
         initBoard();
         drawBoard();
         
-        // Мини-игра Пинг-понг
-        const pongCanvas = document.getElementById('pong');
-        const pongCtx = pongCanvas.getContext('2d');
-        const pongScoreElement = document.getElementById('pongScore');
-        const pongStartBtn = document.getElementById('pongStartBtn');
-        const pongPauseBtn = document.getElementById('pongPauseBtn');
-        const pongSlider = document.getElementById('pongSlider');
+        // Мини-игра Тамагочи
+        const petElement = document.getElementById('tamagotchiPet');
+        const hungerBar = document.getElementById('hungerBar');
+        const happinessBar = document.getElementById('happinessBar');
+        const energyBar = document.getElementById('energyBar');
+        const feedBtn = document.getElementById('feedBtn');
+        const playBtn = document.getElementById('playBtn');
+        const sleepBtn = document.getElementById('sleepBtn');
         
-        // Размеры поля
-        const PONG_WIDTH = 200;
-        const PONG_HEIGHT = 200;
-        pongCanvas.width = PONG_WIDTH;
-        pongCanvas.height = PONG_HEIGHT;
+        let hunger = 100;
+        let happiness = 100;
+        let energy = 100;
+        let isSleeping = false;
+        let petState = 'happy';
         
-        // Размеры ракеток и мяча
-        const PADDLE_HEIGHT = 10;
-        const PADDLE_WIDTH = 50;
-        const BALL_SIZE = 8;
-        
-        // Позиции игроков
-        let playerPaddle = PONG_WIDTH/2 - PADDLE_WIDTH/2;
-        let computerPaddle = PONG_WIDTH/2 - PADDLE_WIDTH/2;
-        
-        // Позиция мяча
-        let ballX = PONG_WIDTH/2;
-        let ballY = PONG_HEIGHT/2;
-        
-        // Скорость мяча
-        let ballSpeedX = 3;
-        let ballSpeedY = 3;
-        
-        // Счёт
-        let playerScore = 0;
-        let computerScore = 0;
-        
-        // Состояние игры
-        let pongInterval = null;
-        let pongPaused = true;
-        
-        // Отрисовка игры
-        function drawPong() {
-            // Очистка поля
-            pongCtx.clearRect(0, 0, PONG_WIDTH, PONG_HEIGHT);
-            
-            // Отрисовка сетки
-            pongCtx.fillStyle = '#34495e';
-            for (let i = 0; i < PONG_HEIGHT; i += 20) {
-                pongCtx.fillRect(PONG_WIDTH/2 - 2, i, 4, 10);
-            }
-            
-            // Отрисовка ракеток
-            pongCtx.fillStyle = '#3498db';
-            pongCtx.fillRect(playerPaddle, PONG_HEIGHT - PADDLE_HEIGHT - 2, PADDLE_WIDTH, PADDLE_HEIGHT);
-            pongCtx.fillRect(computerPaddle, 2, PADDLE_WIDTH, PADDLE_HEIGHT);
-            
-            // Отрисовка мяча
-            pongCtx.fillStyle = '#e74c3c';
-            pongCtx.beginPath();
-            pongCtx.arc(ballX, ballY, BALL_SIZE, 0, Math.PI * 2);
-            pongCtx.fill();
-            
-            // Обновление счёта
-            pongScoreElement.textContent = `${playerScore}:${computerScore}`;
-        }
-        
-        // Обновление игры
-        function updatePong() {
-            if (pongPaused) return;
-            
-            // Движение мяча
-            ballX += ballSpeedX;
-            ballY += ballSpeedY;
-            
-            // Отскок от стен
-            if (ballX <= BALL_SIZE || ballX >= PONG_WIDTH - BALL_SIZE) {
-                ballSpeedX = -ballSpeedX;
-            }
-            
-            // Отскок от ракеток
-            if (
-                ballY <= BALL_SIZE + PADDLE_HEIGHT && 
-                ballX >= computerPaddle && 
-                ballX <= computerPaddle + PADDLE_WIDTH
-            ) {
-                ballSpeedY = -ballSpeedY;
-                // Увеличение сложности при ударе
-                ballSpeedX += (Math.random() - 0.5) * 2;
-            }
-            
-            if (
-                ballY >= PONG_HEIGHT - BALL_SIZE - PADDLE_HEIGHT && 
-                ballX >= playerPaddle && 
-                ballX <= playerPaddle + PADDLE_WIDTH
-            ) {
-                ballSpeedY = -ballSpeedY;
-                // Увеличение сложности при ударе
-                ballSpeedX += (Math.random() - 0.5) * 2;
-            }
-            
-            // Забитый гол
-            if (ballY < 0) {
-                playerScore++;
-                resetBall();
-            }
-            
-            if (ballY > PONG_HEIGHT) {
-                computerScore++;
-                resetBall();
-            }
-            
-            // ИИ компьютера
-            computerPaddle = ballX - PADDLE_WIDTH/2;
-            if (computerPaddle < 0) computerPaddle = 0;
-            if (computerPaddle > PONG_WIDTH - PADDLE_WIDTH) computerPaddle = PONG_WIDTH - PADDLE_WIDTH;
-            
-            // Отрисовка
-            drawPong();
-        }
-        
-        // Сброс мяча
-        function resetBall() {
-            ballX = PONG_WIDTH/2;
-            ballY = PONG_HEIGHT/2;
-            ballSpeedX = (Math.random() > 0.5 ? 1 : -1) * 3;
-            ballSpeedY = 3;
-        }
-        
-        // Управление игроком
-        pongSlider.addEventListener('input', () => {
-            playerPaddle = parseInt(pongSlider.value);
-        });
-        
-        // Запуск игры
-        pongStartBtn.addEventListener('click', () => {
-            if (pongInterval) {
-                clearInterval(pongInterval);
-                pongInterval = null;
-                pongStartBtn.textContent = 'Старт';
-                pongPaused = true;
-                pongPauseBtn.textContent = 'Пауза';
+        // Обновление состояния питомца
+        function updatePet() {
+            if (isSleeping) {
+                energy = Math.min(100, energy + 2);
+                hunger = Math.max(0, hunger - 0.5);
             } else {
-                playerScore = 0;
-                computerScore = 0;
-                resetBall();
-                pongInterval = setInterval(updatePong, 30);
-                pongStartBtn.textContent = 'Стоп';
-                pongPaused = false;
-                drawPong();
+                hunger = Math.max(0, hunger - 1);
+                happiness = Math.max(0, happiness - 0.8);
+                energy = Math.max(0, energy - 0.5);
             }
+            
+            // Определяем состояние питомца
+            if (hunger < 30) petState = 'hungry';
+            else if (happiness < 30) petState = 'sad';
+            else if (energy < 30) petState = 'tired';
+            else petState = 'happy';
+            
+            // Обновляем внешний вид питомца
+            updatePetAppearance();
+            
+            // Обновляем полоски состояний
+            hungerBar.style.width = `${hunger}%`;
+            happinessBar.style.width = `${happiness}%`;
+            energyBar.style.width = `${energy}%`;
+        }
+        
+        // Обновление внешнего вида питомца
+        function updatePetAppearance() {
+            switch(petState) {
+                case 'hungry':
+                    petElement.textContent = '😾';
+                    break;
+                case 'sad':
+                    petElement.textContent = '😿';
+                    break;
+                case 'tired':
+                    petElement.textContent = '😴';
+                    break;
+                case 'happy':
+                default:
+                    petElement.textContent = '😺';
+                    break;
+            }
+        }
+        
+        // Кормление питомца
+        feedBtn.addEventListener('click', () => {
+            if (isSleeping) return;
+            hunger = Math.min(100, hunger + 30);
+            energy = Math.max(0, energy - 5);
+            updatePetAppearance();
         });
         
-        // Пауза
-        pongPauseBtn.addEventListener('click', () => {
-            if (pongInterval) {
-                if (pongPaused) {
-                    pongInterval = setInterval(updatePong, 30);
-                    pongPauseBtn.textContent = 'Пауза';
-                    pongPaused = false;
-                } else {
-                    clearInterval(pongInterval);
-                    pongInterval = null;
-                    pongPauseBtn.textContent = 'Продолжить';
-                    pongPaused = true;
-                }
-                drawPong();
-            }
+        // Игра с питомцем
+        playBtn.addEventListener('click', () => {
+            if (isSleeping) return;
+            happiness = Math.min(100, happiness + 25);
+            energy = Math.max(0, energy - 15);
+            hunger = Math.max(0, hunger - 5);
+            updatePetAppearance();
         });
         
-        // Инициализация игры
-        drawPong();
+        // Сон питомца
+        sleepBtn.addEventListener('click', () => {
+            isSleeping = !isSleeping;
+            sleepBtn.textContent = isSleeping ? 'Разбудить' : 'Уложить спать';
+            updatePetAppearance();
+        });
+        
+        // Запускаем обновление состояния питомца каждые 2 секунды
+        setInterval(updatePet, 2000);
     </script>
 </body>
 </html>
