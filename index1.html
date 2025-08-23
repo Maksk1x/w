@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechService - Ремонт цифровой техники</title>
+    <title>Сервисный Центр SC - Ремонт цифровой техники</title>
     <style>
         :root {
             --dark-gray: #333333;
@@ -11,16 +11,22 @@
             --light-gray: #777777;
             --lighter-gray: #999999;
             --lightest-gray: #eeeeee;
-            --gradient: linear-gradient(135deg, var(--dark-gray) 0%, var(--medium-gray) 100%);
+            --gradient: linear-gradient(135deg, #1a2a6c 0%, #2a4d8e 100%);
+            --accent: #ff6b00;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
         body {
             font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
             color: var(--dark-gray);
             background-color: #f5f5f5;
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
         .watermark-bg {
@@ -29,7 +35,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" opacity="0.03"><text x="20" y="30" font-family="Arial" font-size="14" transform="rotate(45 100,100)">TechService</text></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" opacity="0.03"><text x="20" y="30" font-family="Arial" font-size="14" transform="rotate(45 100,100)">SC Service</text></svg>');
             z-index: -1;
         }
         
@@ -38,6 +44,7 @@
             color: white;
             padding: 1rem 0;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: relative;
         }
         
         .header-container {
@@ -57,6 +64,7 @@
             font-size: 2rem;
             font-weight: bold;
             margin-bottom: 0.3rem;
+            color: white;
         }
         
         .tagline {
@@ -66,12 +74,14 @@
         
         .contacts-header {
             text-align: right;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
         
         .header-phone {
             font-size: 1.4rem;
             font-weight: bold;
-            margin-bottom: 5px;
         }
         
         .header-address {
@@ -111,7 +121,7 @@
         
         .container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 20px auto;
             padding: 0 20px;
             display: flex;
             gap: 20px;
@@ -137,246 +147,367 @@
         
         .hero {
             background: var(--lightest-gray);
-            padding: 3rem 0;
+            padding: 2rem 0;
             text-align: center;
             border-bottom: 1px solid #ddd;
+            position: relative;
         }
         
         .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
             color: var(--dark-gray);
         }
         
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             max-width: 800px;
-            margin: 0 auto 2rem auto;
+            margin: 0 auto 1rem auto;
             color: var(--medium-gray);
         }
         
-        .cta-button {
-            display: inline-block;
-            background: var(--gradient);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
         .services {
-            padding: 3rem 0;
+            padding: 2rem 0;
             background: white;
         }
         
         .section-title {
             text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
             color: var(--dark-gray);
         }
         
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            gap: 15px;
         }
         
         .service-card {
             background: var(--lightest-gray);
             border-radius: 8px;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
             transition: transform 0.3s;
             border: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            min-height: 180px;
         }
         
         .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
         
         .service-icon {
             font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--medium-gray);
-        }
-        
-        .service-card h3 {
-            margin-bottom: 1rem;
-            color: var(--dark-gray);
-        }
-        
-        /* Секция блога */
-        .blog-section {
-            padding: 3rem 0;
-            background: var(--lightest-gray);
-        }
-        
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-        
-        .blog-post {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        }
-        
-        .blog-content {
-            padding: 20px;
-        }
-        
-        .about {
-            padding: 3rem 0;
-            background: var(--lightest-gray);
-        }
-        
-        .about-content {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-        
-        .about-text {
-            flex: 1;
-        }
-        
-        .about-image {
-            flex: 1;
-            background: var(--gradient);
-            height: 300px;
-            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+        }
+        
+        .service-card h3 {
+            margin-bottom: 0.8rem;
+            color: var(--dark-gray);
+            font-size: 1.2rem;
+        }
+        
+        .service-card p {
+            font-size: 0.9rem;
+            margin-top: auto;
         }
         
         .contact {
-            padding: 3rem 0;
+            padding: 2rem 0;
             background: white;
-        }
-        
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--lightest-gray);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: var(--medium-gray);
-        }
-        
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: inherit;
-        }
-        
-        .form-group textarea {
-            height: 120px;
-        }
-        
-        .submit-button {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-        
-        .submit-button:hover {
-            opacity: 0.9;
+            text-align: center;
         }
         
         .contact-info {
-            margin-top: 3rem;
-            text-align: center;
+            margin-top: 2rem;
         }
         
         .phone-link {
             display: inline-block;
-            background: var(--gradient);
+            background: var(--accent);
             color: white;
-            padding: 12px 30px;
+            padding: 10px 25px;
             border-radius: 4px;
             text-decoration: none;
             font-weight: bold;
-            margin-top: 1rem;
-            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
         }
         
         .highlight-phone {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: bold;
             color: var(--dark-gray);
-            margin: 15px 0;
+            margin: 10px 0;
             background: rgba(0,0,0,0.05);
-            padding: 10px;
+            padding: 8px;
             border-radius: 4px;
             display: inline-block;
         }
         
-        footer {
-            background: var(--gradient);
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 2rem;
-        }
-        
-        /* Плавающая кнопка доната */
-        .donate-button {
+        /* Плавающая кнопка телефона */
+        .phone-float {
             position: fixed;
             bottom: 30px;
-            right: 30px;
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            left: 30px;
+            width: 70px;
+            height: 70px;
+            background: #25D366;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 40px;
+            font-size: 30px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        
+        /* Плавающая кнопка доната */
+        .donate-button {
+            position: fixed;
+            bottom: 110px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle at 30% 30%, #FFD700, #D4AF37);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8B7500;
+            font-size: 35px;
             text-decoration: none;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             z-index: 1000;
             animation: float 3s ease-in-out infinite;
         }
         
+        .donate-button::before {
+            content: "💎";
+        }
+        
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
+        }
+        
+        /* Монетки вокруг кнопки */
+        .coin-float {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle at 30% 30%, #FFD700, #D4AF37);
+            border-radius: 50%;
+            animation: coin-float 4s infinite ease-in-out;
+            box-shadow: 0 0 4px gold;
+        }
+        
+        .coin-float:nth-child(1) {
+            top: -10px;
+            left: 15px;
+            animation-delay: 0s;
+        }
+        
+        .coin-float:nth-child(2) {
+            top: 10px;
+            right: -10px;
+            animation-delay: 0.5s;
+        }
+        
+        .coin-float:nth-child(3) {
+            bottom: -10px;
+            left: 25px;
+            animation-delay: 1s;
+        }
+        
+        .coin-float:nth-child(4) {
+            bottom: 15px;
+            left: -10px;
+            animation-delay: 1.5s;
+        }
+        
+        @keyframes coin-float {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            25% { transform: translateY(-15px) rotate(90deg); }
+            50% { transform: translateY(0) rotate(180deg); }
+            75% { transform: translateY(-10px) rotate(270deg); }
+        }
+        
+        /* Тетрис */
+        .tetris-container {
+            background: #2c3e50;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+        
+        .tetris-header {
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .score-display {
+            background: #34495e;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        #tetris {
+            background: #1a1a2e;
+            display: block;
+            margin: 0 auto;
+            border: 2px solid #3498db;
+        }
+        
+        .tetris-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .tetris-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .tetris-btn:hover {
+            background: #2980b9;
+        }
+        
+        .mobile-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .mobile-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .mobile-btn:active {
+            background: #2980b9;
+        }
+        
+        .mobile-btn.rotate {
+            grid-column: 2;
+            grid-row: 1;
+        }
+        
+        .mobile-btn.left {
+            grid-column: 1;
+            grid-row: 2;
+        }
+        
+        .mobile-btn.down {
+            grid-column: 2;
+            grid-row: 2;
+        }
+        
+        .mobile-btn.right {
+            grid-column: 3;
+            grid-row: 2;
+        }
+        
+        /* Пинг-понг */
+        .pong-container {
+            background: #2c3e50;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+        
+        .pong-header {
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        #pong {
+            background: #1a1a2e;
+            display: block;
+            margin: 0 auto;
+            border: 2px solid #3498db;
+        }
+        
+        .pong-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .pong-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .pong-btn:hover {
+            background: #2980b9;
+        }
+        
+        .pong-slider {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .service-image {
+            width: 100%;
+            height: 120px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-bottom: 10px;
+            border-radius: 5px;
         }
         
         @media (max-width: 992px) {
@@ -395,6 +526,12 @@
                 flex: 1;
                 min-width: 250px;
             }
+            
+            .tetris-container, .pong-container {
+                order: 1;
+                width: 100%;
+                margin-top: 0;
+            }
         }
         
         @media (max-width: 768px) {
@@ -408,20 +545,28 @@
                 margin-top: 15px;
             }
             
-            .about-content {
-                flex-direction: column;
-            }
-            
             .hero h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .donate-button {
-                bottom: 20px;
+                bottom: 110px;
                 right: 20px;
                 width: 60px;
                 height: 60px;
                 font-size: 30px;
+            }
+            
+            .phone-float {
+                bottom: 30px;
+                left: 20px;
+                width: 60px;
+                height: 60px;
+                font-size: 25px;
+            }
+            
+            .service-card {
+                min-height: 160px;
             }
         }
     </style>
@@ -429,15 +574,23 @@
 <body>
     <div class="watermark-bg"></div>
     
-    <!-- Плавающая кнопка доната -->
+    <!-- Плавающая кнопка телефона -->
+    <a href="tel:+79200206698" class="phone-float">
+        📞
+    </a>
+    
+    <!-- Плавающая кнопка доната с монетками -->
     <a href="https://pay.cloudtips.ru/p/6ccaafce" class="donate-button">
-        <span>💎</span> <!-- Можно заменить на свою картинку -->
+        <div class="coin-float"></div>
+        <div class="coin-float"></div>
+        <div class="coin-float"></div>
+        <div class="coin-float"></div>
     </a>
     
     <header>
         <div class="header-container">
             <div class="logo-section">
-                <div class="logo">TechService</div>
+                <div class="logo">Сервисный Центр SC</div>
                 <div class="tagline">Профессиональный ремонт цифровой техники</div>
             </div>
             <div class="contacts-header">
@@ -456,93 +609,143 @@
         
         <nav>
             <a href="#services">Услуги</a>
-            <a href="#about">О нас</a>
             <a href="#contact">Контакты</a>
         </nav>
     </header>
     
     <div class="container">
-        <!-- ЛЕВЫЙ САЙДБАР - МЕСТО ДЛЯ ВАШЕГО КОНТЕНТА -->
+        <!-- ЛЕВЫЙ САЙДБАР -->
         <div class="sidebar">
             <div class="content-block">
                 <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
-                <h3>Советы по уходу</h3>
-                <p>Регулярно очищайте технику от пыли для предотвращения перегрева.</p>
+                <h3>Создание сайтов</h3>
+                <div class="service-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><rect x=\"10\" y=\"20\" width=\"80\" height=\"60\" fill=\"%233a7bd5\" rx=\"5\" ry=\"5\"/><rect x=\"15\" y=\"30\" width=\"20\" height=\"10\" fill=\"%23ffffff\"/><rect x=\"40\" y=\"30\" width=\"45\" height=\"10\" fill=\"%23ffffff\"/><rect x=\"15\" y=\"45\" width=\"70\" height=\"10\" fill=\"%23ffffff\"/><rect x=\"15\" y=\"60\" width=\"70\" height=\"10\" fill=\"%23ffffff\"/><circle cx=\"85\" y=\"75\" r=\"5\" fill=\"%23ff6b6b\"/></svg>')"></div>
+                <p>Заказ и установка одностраничных сайтов подобно этому всего от 1000р!</p>
                 <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
             </div>
             
             <div class="content-block">
                 <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
-                <h3>Акции</h3>
-                <p>Чистка ноутбука + замена термопасты - всего 1500 рублей!</p>
+                <h3>Отцифровка материалов</h3>
+                <div class="service-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><rect x=\"20\" y=\"25\" width=\"60\" height=\"45\" fill=\"%23f9f9f9\" stroke=\"%23333\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"40\" r=\"10\" fill=\"%23ff6b00\"/><rect x=\"40\" y=\"55\" width=\"20\" height=\"10\" fill=\"%23333\"/><path d=\"M30,75 L70,75 L65,90 L35,90 Z\" fill=\"%23333\"/><rect x=\"25\" y=\"30\" width=\"5\" height=\"5\" fill=\"%23ff6b00\"/><rect x=\"70\" y=\"30\" width=\"5\" height=\"5\" fill=\"%23ff6b00\"/></svg>')"></div>
+                <p>Отцифровка старых фото и видео. Перенос на цифровые носители.</p>
                 <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
+            </div>
+            
+            <!-- Мини-игра Тетрис -->
+            <div class="tetris-container">
+                <div class="tetris-header">
+                    <div>Игра Тетрис</div>
+                    <div class="score-display">Очки: <span id="tetrisScore">0</span></div>
+                </div>
+                <canvas id="tetris" width="200" height="300"></canvas>
+                <div class="tetris-controls">
+                    <button class="tetris-btn" id="startBtn">Старт</button>
+                    <button class="tetris-btn" id="pauseBtn">Пауза</button>
+                </div>
+                
+                <div class="mobile-controls">
+                    <button class="mobile-btn rotate" id="rotateBtn">↻</button>
+                    <button class="mobile-btn left" id="leftBtn">←</button>
+                    <button class="mobile-btn down" id="downBtn">↓</button>
+                    <button class="mobile-btn right" id="rightBtn">→</button>
+                </div>
+            </div>
+            
+            <!-- Мини-игра Пинг-понг -->
+            <div class="pong-container">
+                <div class="pong-header">
+                    <div>Игра Пинг-понг</div>
+                    <div class="score-display">Счёт: <span id="pongScore">0:0</span></div>
+                </div>
+                <canvas id="pong" width="200" height="200"></canvas>
+                <div class="pong-controls">
+                    <button class="pong-btn" id="pongStartBtn">Старт</button>
+                    <button class="pong-btn" id="pongPauseBtn">Пауза</button>
+                </div>
+                <input type="range" min="0" max="200" value="100" class="pong-slider" id="pongSlider">
             </div>
         </div>
         
         <!-- ОСНОВНОЙ КОНТЕНТ -->
         <div class="main-content">
             <section class="hero">
-                <h1>Ремонт цифровой техники с гарантией</h1>
-                <p>Мы ремонтируем все виды цифровой техники: от смартфонов до компьютеров. Быстро, качественно и с гарантией.</p>
-                <a href="#contact" class="cta-button">Оставить заявку</a>
+                <h1>Профессиональный ремонт цифровой техники</h1>
+                <p>Срочный ремонт любой сложности с гарантией. Опытные мастера и качественные комплектующие.</p>
             </section>
             
             <section id="services" class="services">
                 <h2 class="section-title">Наши услуги</h2>
                 <div class="services-grid">
-                    <!-- Услуги... -->
-                </div>
-            </section>
-            
-            <!-- СЕКЦИЯ БЛОГА -->
-            <section class="blog-section">
-                <h2 class="section-title">Полезные статьи</h2>
-                <div class="blog-grid">
-                    <div class="blog-post">
-                        <!-- ====== НАЧАЛО БЛОГ-ПОСТА ====== -->
-                        <div class="blog-content">
-                            <h3>Как продлить жизнь аккумулятору</h3>
-                            <p>Простые советы по уходу за батареей вашего устройства...</p>
-                        </div>
-                        <!-- ====== КОНЕЦ БЛОГ-ПОСТА ====== -->
+                    <div class="service-card">
+                        <div class="service-icon">📱</div>
+                        <h3>Ремонт телефонов</h3>
+                        <p>Диагностика и ремонт смартфонов всех марок. Замена экранов, батарей, разъемов.</p>
                     </div>
                     
-                    <div class="blog-post">
-                        <!-- ====== НАЧАЛО БЛОГ-ПОСТА ====== -->
-                        <div class="blog-content">
-                            <h3>Выбор между ремонтом и покупкой</h3>
-                            <p>Когда выгоднее отремонтировать технику, а когда купить новую...</p>
-                        </div>
-                        <!-- ====== КОНЕЦ БЛОГ-ПОСТА ====== -->
+                    <div class="service-card">
+                        <div class="service-icon">💻</div>
+                        <h3>Ремонт ноутбуков</h3>
+                        <p>Ремонт всех моделей ноутбуков: замена матриц, клавиатур, ремонт материнских плат.</p>
                     </div>
-                </div>
-            </section>
-            
-            <section id="about" class="about">
-                <h2 class="section-title">О нашем сервисе</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <!-- ====== НАЧАЛО ТЕКСТОВОГО БЛОКА ====== -->
-                        <p>TechService - это современный сервисный центр, специализирующийся на ремонте всех видов цифровой техники.</p>
-                        <!-- ====== КОНЕЦ ТЕКСТОВОГО БЛОКА ====== -->
+                    
+                    <div class="service-card">
+                        <div class="service-icon">🖥️</div>
+                        <h3>Ремонт компьютеров</h3>
+                        <p>Ремонт ПК, замена комплектующих, диагностика, сборка компьютеров под ваши задачи.</p>
                     </div>
-                    <div class="about-image">
-                        Наш сервисный центр
+                    
+                    <div class="service-card">
+                        <div class="service-icon">🛴</div>
+                        <h3>Ремонт самокатов</h3>
+                        <p>Ремонт электросамокатов: замена аккумуляторов, ремонт двигателей, настройка электроники.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">✈️</div>
+                        <h3>Ремонт квадрокоптеров</h3>
+                        <p>Ремонт дронов, замена пропеллеров, камер, стабилизация полета, настройка контроллеров.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">📷</div>
+                        <h3>Ремонт фотоаппаратов</h3>
+                        <p>Ремонт зеркальных и беззеркальных камер, объективов, вспышек и другой фототехники.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">🧹</div>
+                        <h3>Ремонт умных пылесосов</h3>
+                        <p>Чистка, замена щеток, ремонт двигателей и электроники роботов-пылесосов.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">☕</div>
+                        <h3>Ремонт кофемашин</h3>
+                        <p>Ремонт автоматических и капсульных кофемашин, чистка, замена помп и нагревателей.</p>
                     </div>
                 </div>
             </section>
             
             <section id="contact" class="contact">
-                <!-- Контактная форма... -->
+                <h2 class="section-title">Контактная информация</h2>
+                
+                <div class="contact-info">
+                    <div class="highlight-phone">+7 (920) 020-66-98</div>
+                    <a href="tel:+79200206698" class="phone-link">Позвонить нам</a>
+                    <p>Адрес: г. Нижний Новгород, ул. Октябрьской Революции, д. 70</p>
+                    <p>Часы работы: Пн-Вс 10:00-20:00</p>
+                </div>
             </section>
         </div>
         
-        <!-- ПРАВЫЙ САЙДБАР - МЕСТО ДЛЯ ВАШЕГО КОНТЕНТА -->
+        <!-- ПРАВЫЙ САЙДБАР -->
         <div class="sidebar">
             <div class="content-block">
                 <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
                 <h3>Отзывы</h3>
                 <p>"Отлично починили ноутбук за 1 день!" - Иван С.</p>
+                <p>"Профессионально заменили экран на смартфоне" - Марина К.</p>
                 <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
             </div>
             
@@ -552,22 +755,469 @@
                 <p>Теперь ремонтируем игровые консоли нового поколения</p>
                 <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
             </div>
+            
+            <div class="content-block">
+                <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
+                <h3>Статьи</h3>
+                <p>Как продлить жизнь аккумулятору вашего устройства</p>
+                <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
+            </div>
         </div>
     </div>
     
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 TechService. Все права защищены.</p>
-            <p>Профессиональный ремонт цифровой техники</p>
-        </div>
-    </footer>
-    
     <script>
-        document.getElementById('serviceForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
-            this.reset();
+        // Мини-игра Тетрис
+        const tetrisCanvas = document.getElementById('tetris');
+        const tetrisCtx = tetrisCanvas.getContext('2d');
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const tetrisScoreElement = document.getElementById('tetrisScore');
+        
+        // Кнопки для мобильных устройств
+        const rotateBtn = document.getElementById('rotateBtn');
+        const leftBtn = document.getElementById('leftBtn');
+        const rightBtn = document.getElementById('rightBtn');
+        const downBtn = document.getElementById('downBtn');
+        
+        // Размеры поля
+        const ROWS = 20;
+        const COLS = 10;
+        const BLOCK_SIZE = 15;
+        tetrisCanvas.width = COLS * BLOCK_SIZE;
+        tetrisCanvas.height = ROWS * BLOCK_SIZE;
+        
+        // Фигуры тетриса
+        const SHAPES = [
+            [[1, 1, 1, 1]], // I
+            [[1, 1, 1], [0, 1, 0]], // T
+            [[1, 1, 1], [1, 0, 0]], // L
+            [[1, 1, 1], [0, 0, 1]], // J
+            [[1, 1], [1, 1]], // O
+            [[0, 1, 1], [1, 1, 0]], // S
+            [[1, 1, 0], [0, 1, 1]]  // Z
+        ];
+        
+        // Цвета фигур
+        const COLORS = [
+            '#00f0f0', // I - голубой
+            '#a000f0', // T - фиолетовый
+            '#f0a000', // L - оранжевый
+            '#0000f0', // J - синий
+            '#f0f000', // O - желтый
+            '#00f000', // S - зеленый
+            '#f00000'  // Z - красный
+        ];
+        
+        // Игровое поле
+        let board = [];
+        let currentPiece = null;
+        let gameInterval = null;
+        let isPaused = false;
+        let score = 0;
+        
+        // Инициализация игрового поля
+        function initBoard() {
+            board = Array(ROWS).fill().map(() => Array(COLS).fill(0));
+        }
+        
+        // Создание новой фигуры
+        function createPiece() {
+            const typeId = Math.floor(Math.random() * SHAPES.length);
+            const shape = SHAPES[typeId];
+            
+            return {
+                shape: shape,
+                x: Math.floor(COLS / 2) - Math.floor(shape[0].length / 2),
+                y: 0,
+                typeId: typeId
+            };
+        }
+        
+        // Отрисовка игрового поля
+        function drawBoard() {
+            tetrisCtx.clearRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
+            
+            // Отрисовка статичных блоков
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    if (board[y][x]) {
+                        drawBlock(x, y, board[y][x] - 1);
+                    }
+                }
+            }
+            
+            // Отрисовка текущей фигуры
+            if (currentPiece) {
+                currentPiece.shape.forEach((row, y) => {
+                    row.forEach((value, x) => {
+                        if (value) {
+                            drawBlock(currentPiece.x + x, currentPiece.y + y, currentPiece.typeId);
+                        }
+                    });
+                });
+            }
+        }
+        
+        // Отрисовка одного блока
+        function drawBlock(x, y, colorIndex) {
+            tetrisCtx.fillStyle = COLORS[colorIndex];
+            tetrisCtx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+            
+            tetrisCtx.strokeStyle = '#000';
+            tetrisCtx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+        }
+        
+        // Движение фигуры вниз
+        function moveDown() {
+            if (!currentPiece) return;
+            
+            currentPiece.y++;
+            if (checkCollision()) {
+                currentPiece.y--;
+                lockPiece();
+                removeLines();
+                currentPiece = createPiece();
+                
+                // Проверка на завершение игры
+                if (checkCollision()) {
+                    clearInterval(gameInterval);
+                    alert(`Игра окончена! Ваш счет: ${score}`);
+                    startBtn.textContent = 'Старт';
+                }
+            }
+            drawBoard();
+        }
+        
+        // Проверка столкновений
+        function checkCollision() {
+            if (!currentPiece) return false;
+            
+            for (let y = 0; y < currentPiece.shape.length; y++) {
+                for (let x = 0; x < currentPiece.shape[y].length; x++) {
+                    if (currentPiece.shape[y][x]) {
+                        const newX = currentPiece.x + x;
+                        const newY = currentPiece.y + y;
+                        
+                        if (
+                            newX < 0 || 
+                            newX >= COLS || 
+                            newY >= ROWS ||
+                            (newY >= 0 && board[newY][newX])
+                        ) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        
+        // Фиксация фигуры на поле
+        function lockPiece() {
+            currentPiece.shape.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value) {
+                        const boardY = currentPiece.y + y;
+                        if (boardY >= 0) {
+                            board[boardY][currentPiece.x + x] = currentPiece.typeId + 1;
+                        }
+                    }
+                });
+            });
+        }
+        
+        // Удаление заполненных линий
+        function removeLines() {
+            let lines = 0;
+            
+            for (let y = ROWS - 1; y >= 0; y--) {
+                if (board[y].every(value => value !== 0)) {
+                    // Удаление линии
+                    for (let yy = y; yy > 0; yy--) {
+                        board[yy] = [...board[yy - 1]];
+                    }
+                    board[0] = Array(COLS).fill(0);
+                    lines++;
+                    y++; // Проверяем ту же позицию снова
+                }
+            }
+            
+            if (lines > 0) {
+                score += [0, 100, 300, 500, 800][lines];
+                tetrisScoreElement.textContent = score;
+            }
+        }
+        
+        // Управление с клавиатуры
+        document.addEventListener('keydown', e => {
+            if (!currentPiece || isPaused) return;
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                    currentPiece.x--;
+                    if (checkCollision()) currentPiece.x++;
+                    break;
+                case 'ArrowRight':
+                    currentPiece.x++;
+                    if (checkCollision()) currentPiece.x--;
+                    break;
+                case 'ArrowDown':
+                    moveDown();
+                    break;
+                case 'ArrowUp':
+                    rotatePiece();
+                    break;
+            }
+            drawBoard();
         });
+        
+        // Поворот фигуры
+        function rotatePiece() {
+            const originalShape = currentPiece.shape;
+            
+            // Транспонирование матрицы
+            const rotated = [];
+            for (let x = 0; x < originalShape[0].length; x++) {
+                rotated.push([]);
+                for (let y = originalShape.length - 1; y >= 0; y--) {
+                    rotated[x].push(originalShape[y][x]);
+                }
+            }
+            
+            currentPiece.shape = rotated;
+            if (checkCollision()) {
+                currentPiece.shape = originalShape;
+            }
+        }
+        
+        // Начало игры
+        startBtn.addEventListener('click', () => {
+            if (gameInterval) {
+                clearInterval(gameInterval);
+                gameInterval = null;
+                startBtn.textContent = 'Старт';
+                isPaused = true;
+            } else {
+                initBoard();
+                currentPiece = createPiece();
+                score = 0;
+                tetrisScoreElement.textContent = score;
+                gameInterval = setInterval(moveDown, 500);
+                startBtn.textContent = 'Стоп';
+                isPaused = false;
+                drawBoard();
+            }
+        });
+        
+        // Пауза
+        pauseBtn.addEventListener('click', () => {
+            if (gameInterval) {
+                if (isPaused) {
+                    gameInterval = setInterval(moveDown, 500);
+                    pauseBtn.textContent = 'Пауza';
+                } else {
+                    clearInterval(gameInterval);
+                    gameInterval = null;
+                    pauseBtn.textContent = 'Продолжить';
+                }
+                isPaused = !isPaused;
+            }
+        });
+        
+        // Кнопки для мобильных устройств
+        rotateBtn.addEventListener('click', () => {
+            if (currentPiece && !isPaused) rotatePiece();
+            drawBoard();
+        });
+        
+        leftBtn.addEventListener('click', () => {
+            if (currentPiece && !isPaused) {
+                currentPiece.x--;
+                if (checkCollision()) currentPiece.x++;
+            }
+            drawBoard();
+        });
+        
+        rightBtn.addEventListener('click', () => {
+            if (currentPiece && !isPaused) {
+                currentPiece.x++;
+                if (checkCollision()) currentPiece.x--;
+            }
+            drawBoard();
+        });
+        
+        downBtn.addEventListener('click', () => {
+            if (currentPiece && !isPaused) moveDown();
+        });
+        
+        // Инициализация игры
+        initBoard();
+        drawBoard();
+        
+        // Мини-игра Пинг-понг
+        const pongCanvas = document.getElementById('pong');
+        const pongCtx = pongCanvas.getContext('2d');
+        const pongScoreElement = document.getElementById('pongScore');
+        const pongStartBtn = document.getElementById('pongStartBtn');
+        const pongPauseBtn = document.getElementById('pongPauseBtn');
+        const pongSlider = document.getElementById('pongSlider');
+        
+        // Размеры поля
+        const PONG_WIDTH = 200;
+        const PONG_HEIGHT = 200;
+        pongCanvas.width = PONG_WIDTH;
+        pongCanvas.height = PONG_HEIGHT;
+        
+        // Размеры ракеток и мяча
+        const PADDLE_HEIGHT = 10;
+        const PADDLE_WIDTH = 50;
+        const BALL_SIZE = 8;
+        
+        // Позиции игроков
+        let playerPaddle = PONG_WIDTH/2 - PADDLE_WIDTH/2;
+        let computerPaddle = PONG_WIDTH/2 - PADDLE_WIDTH/2;
+        
+        // Позиция мяча
+        let ballX = PONG_WIDTH/2;
+        let ballY = PONG_HEIGHT/2;
+        
+        // Скорость мяча
+        let ballSpeedX = 3;
+        let ballSpeedY = 3;
+        
+        // Счёт
+        let playerScore = 0;
+        let computerScore = 0;
+        
+        // Состояние игры
+        let pongInterval = null;
+        let pongPaused = true;
+        
+        // Отрисовка игры
+        function drawPong() {
+            // Очистка поля
+            pongCtx.clearRect(0, 0, PONG_WIDTH, PONG_HEIGHT);
+            
+            // Отрисовка сетки
+            pongCtx.fillStyle = '#34495e';
+            for (let i = 0; i < PONG_HEIGHT; i += 20) {
+                pongCtx.fillRect(PONG_WIDTH/2 - 2, i, 4, 10);
+            }
+            
+            // Отрисовка ракеток
+            pongCtx.fillStyle = '#3498db';
+            pongCtx.fillRect(playerPaddle, PONG_HEIGHT - PADDLE_HEIGHT - 2, PADDLE_WIDTH, PADDLE_HEIGHT);
+            pongCtx.fillRect(computerPaddle, 2, PADDLE_WIDTH, PADDLE_HEIGHT);
+            
+            // Отрисовка мяча
+            pongCtx.fillStyle = '#e74c3c';
+            pongCtx.beginPath();
+            pongCtx.arc(ballX, ballY, BALL_SIZE, 0, Math.PI * 2);
+            pongCtx.fill();
+            
+            // Обновление счёта
+            pongScoreElement.textContent = `${playerScore}:${computerScore}`;
+        }
+        
+        // Обновление игры
+        function updatePong() {
+            if (pongPaused) return;
+            
+            // Движение мяча
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+            
+            // Отскок от стен
+            if (ballX <= BALL_SIZE || ballX >= PONG_WIDTH - BALL_SIZE) {
+                ballSpeedX = -ballSpeedX;
+            }
+            
+            // Отскок от ракеток
+            if (
+                ballY <= BALL_SIZE + PADDLE_HEIGHT && 
+                ballX >= computerPaddle && 
+                ballX <= computerPaddle + PADDLE_WIDTH
+            ) {
+                ballSpeedY = -ballSpeedY;
+                // Увеличение сложности при ударе
+                ballSpeedX += (Math.random() - 0.5) * 2;
+            }
+            
+            if (
+                ballY >= PONG_HEIGHT - BALL_SIZE - PADDLE_HEIGHT && 
+                ballX >= playerPaddle && 
+                ballX <= playerPaddle + PADDLE_WIDTH
+            ) {
+                ballSpeedY = -ballSpeedY;
+                // Увеличение сложности при ударе
+                ballSpeedX += (Math.random() - 0.5) * 2;
+            }
+            
+            // Забитый гол
+            if (ballY < 0) {
+                playerScore++;
+                resetBall();
+            }
+            
+            if (ballY > PONG_HEIGHT) {
+                computerScore++;
+                resetBall();
+            }
+            
+            // ИИ компьютера
+            computerPaddle = ballX - PADDLE_WIDTH/2;
+            if (computerPaddle < 0) computerPaddle = 0;
+            if (computerPaddle > PONG_WIDTH - PADDLE_WIDTH) computerPaddle = PONG_WIDTH - PADDLE_WIDTH;
+            
+            // Отрисовка
+            drawPong();
+        }
+        
+        // Сброс мяча
+        function resetBall() {
+            ballX = PONG_WIDTH/2;
+            ballY = PONG_HEIGHT/2;
+            ballSpeedX = (Math.random() > 0.5 ? 1 : -1) * 3;
+            ballSpeedY = 3;
+        }
+        
+        // Управление игроком
+        pongSlider.addEventListener('input', () => {
+            playerPaddle = parseInt(pongSlider.value);
+        });
+        
+        // Запуск игры
+        pongStartBtn.addEventListener('click', () => {
+            if (pongInterval) {
+                clearInterval(pongInterval);
+                pongInterval = null;
+                pongStartBtn.textContent = 'Старт';
+                pongPaused = true;
+            } else {
+                playerScore = 0;
+                computerScore = 0;
+                resetBall();
+                pongInterval = setInterval(updatePong, 30);
+                pongStartBtn.textContent = 'Стоп';
+                pongPaused = false;
+                drawPong();
+            }
+        });
+        
+        // Пауза
+        pongPauseBtn.addEventListener('click', () => {
+            if (pongInterval) {
+                if (pongPaused) {
+                    pongPauseBtn.textContent = 'Пауза';
+                } else {
+                    pongPauseBtn.textContent = 'Продолжить';
+                }
+                pongPaused = !pongPaused;
+            }
+        });
+        
+        // Инициализация игры
+        drawPong();
     </script>
 </body>
 </html>
