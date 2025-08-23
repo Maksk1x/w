@@ -29,13 +29,16 @@
             overflow-x: hidden;
         }
         
-        .watermark-bg {
+        .background-image {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" opacity="0.03"><text x="20" y="30" font-family="Arial" font-size="14" transform="rotate(45 100,100)">SC Service</text></svg>');
+            background-image: url('https://maksk1x.github.io/w/img/baksc.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
             z-index: -1;
         }
         
@@ -396,10 +399,12 @@
             background: #3498db;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 8px 15px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            font-weight: bold;
+            min-width: 80px;
         }
         
         .tetris-btn:hover {
@@ -410,7 +415,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             grid-template-rows: 1fr 1fr;
-            gap: 5px;
+            gap: 8px;
             margin-top: 10px;
         }
         
@@ -418,10 +423,11 @@
             background: #3498db;
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 1.2rem;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1.4rem;
             cursor: pointer;
+            min-height: 50px;
         }
         
         .mobile-btn:active {
@@ -485,10 +491,12 @@
             background: #3498db;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 8px 15px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            font-weight: bold;
+            min-width: 80px;
         }
         
         .pong-btn:hover {
@@ -498,6 +506,7 @@
         .pong-slider {
             width: 100%;
             margin-top: 10px;
+            height: 20px;
         }
         
         .service-image {
@@ -568,11 +577,23 @@
             .service-card {
                 min-height: 160px;
             }
+            
+            .tetris-btn, .pong-btn {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+                min-width: 70px;
+            }
+            
+            .mobile-btn {
+                padding: 10px;
+                font-size: 1.2rem;
+                min-height: 45px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="watermark-bg"></div>
+    <div class="background-image"></div>
     
     <!-- Плавающая кнопка телефона -->
     <a href="tel:+79200206698" class="phone-float">
@@ -650,20 +671,6 @@
                     <button class="mobile-btn down" id="downBtn">↓</button>
                     <button class="mobile-btn right" id="rightBtn">→</button>
                 </div>
-            </div>
-            
-            <!-- Мини-игра Пинг-понг -->
-            <div class="pong-container">
-                <div class="pong-header">
-                    <div>Игра Пинг-понг</div>
-                    <div class="score-display">Счёт: <span id="pongScore">0:0</span></div>
-                </div>
-                <canvas id="pong" width="200" height="200"></canvas>
-                <div class="pong-controls">
-                    <button class="pong-btn" id="pongStartBtn">Старт</button>
-                    <button class="pong-btn" id="pongPauseBtn">Пауза</button>
-                </div>
-                <input type="range" min="0" max="200" value="100" class="pong-slider" id="pongSlider">
             </div>
         </div>
         
@@ -761,6 +768,20 @@
                 <h3>Статьи</h3>
                 <p>Как продлить жизнь аккумулятору вашего устройства</p>
                 <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
+            </div>
+            
+            <!-- Мини-игра Пинг-понг -->
+            <div class="pong-container">
+                <div class="pong-header">
+                    <div>Игра Пинг-понг</div>
+                    <div class="score-display">Счёт: <span id="pongScore">0:0</span></div>
+                </div>
+                <canvas id="pong" width="200" height="200"></canvas>
+                <div class="pong-controls">
+                    <button class="pong-btn" id="pongStartBtn">Старт</button>
+                    <button class="pong-btn" id="pongPauseBtn">Пауза</button>
+                </div>
+                <input type="range" min="0" max="200" value="100" class="pong-slider" id="pongSlider">
             </div>
         </div>
     </div>
@@ -869,7 +890,7 @@
         
         // Движение фигуры вниз
         function moveDown() {
-            if (!currentPiece) return;
+            if (!currentPiece || isPaused) return;
             
             currentPiece.y++;
             if (checkCollision()) {
@@ -883,6 +904,7 @@
                     clearInterval(gameInterval);
                     alert(`Игра окончена! Ваш счет: ${score}`);
                     startBtn.textContent = 'Старт';
+                    gameInterval = null;
                 }
             }
             drawBoard();
@@ -997,6 +1019,7 @@
                 gameInterval = null;
                 startBtn.textContent = 'Старт';
                 isPaused = true;
+                pauseBtn.textContent = 'Пауза';
             } else {
                 initBoard();
                 currentPiece = createPiece();
@@ -1014,13 +1037,15 @@
             if (gameInterval) {
                 if (isPaused) {
                     gameInterval = setInterval(moveDown, 500);
-                    pauseBtn.textContent = 'Пауza';
+                    pauseBtn.textContent = 'Пауза';
+                    isPaused = false;
                 } else {
                     clearInterval(gameInterval);
                     gameInterval = null;
                     pauseBtn.textContent = 'Продолжить';
+                    isPaused = true;
                 }
-                isPaused = !isPaused;
+                drawBoard();
             }
         });
         
@@ -1193,6 +1218,7 @@
                 pongInterval = null;
                 pongStartBtn.textContent = 'Старт';
                 pongPaused = true;
+                pongPauseBtn.textContent = 'Пауза';
             } else {
                 playerScore = 0;
                 computerScore = 0;
@@ -1208,11 +1234,16 @@
         pongPauseBtn.addEventListener('click', () => {
             if (pongInterval) {
                 if (pongPaused) {
+                    pongInterval = setInterval(updatePong, 30);
                     pongPauseBtn.textContent = 'Пауза';
+                    pongPaused = false;
                 } else {
+                    clearInterval(pongInterval);
+                    pongInterval = null;
                     pongPauseBtn.textContent = 'Продолжить';
+                    pongPaused = true;
                 }
-                pongPaused = !pongPaused;
+                drawPong();
             }
         });
         
