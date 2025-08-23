@@ -15,14 +15,19 @@
             --accent: #ff6b00;
         }
         
-        body {
-            font-family: 'Arial', sans-serif;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
             color: var(--dark-gray);
             background-color: #f5f5f5;
             line-height: 1.6;
             overflow-x: hidden;
+            padding-bottom: 80px;
         }
         
         .watermark-bg {
@@ -117,7 +122,7 @@
         
         .container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 20px auto;
             padding: 0 20px;
             display: flex;
             gap: 20px;
@@ -309,12 +314,15 @@
             text-align: center;
             padding: 1.5rem 0;
             margin-top: 2rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
         
         /* Плавающая кнопка телефона */
         .phone-float {
             position: fixed;
-            bottom: 30px;
+            bottom: 100px;
             left: 30px;
             width: 70px;
             height: 70px;
@@ -340,7 +348,7 @@
         /* Плавающая кнопка доната */
         .donate-button {
             position: fixed;
-            bottom: 120px;
+            bottom: 180px;
             right: 30px;
             width: 70px;
             height: 70px;
@@ -423,6 +431,16 @@
             text-align: center;
             margin-bottom: 10px;
             font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .score-display {
+            background: #34495e;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
         }
         
         #tetris {
@@ -453,6 +471,100 @@
             background: #2980b9;
         }
         
+        .mobile-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .mobile-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .mobile-btn:active {
+            background: #2980b9;
+        }
+        
+        .mobile-btn.rotate {
+            grid-column: 2;
+            grid-row: 1;
+        }
+        
+        .mobile-btn.left {
+            grid-column: 1;
+            grid-row: 2;
+        }
+        
+        .mobile-btn.down {
+            grid-column: 2;
+            grid-row: 2;
+        }
+        
+        .mobile-btn.right {
+            grid-column: 3;
+            grid-row: 2;
+        }
+        
+        /* Пинг-понг */
+        .pong-container {
+            background: #2c3e50;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+        
+        .pong-header {
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        #pong {
+            background: #1a1a2e;
+            display: block;
+            margin: 0 auto;
+            border: 2px solid #3498db;
+        }
+        
+        .pong-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .pong-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .pong-btn:hover {
+            background: #2980b9;
+        }
+        
+        .pong-slider {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
         @media (max-width: 992px) {
             .container {
                 flex-direction: column;
@@ -470,7 +582,7 @@
                 min-width: 250px;
             }
             
-            .tetris-container {
+            .tetris-container, .pong-container {
                 order: 1;
                 width: 100%;
                 margin-top: 0;
@@ -493,7 +605,7 @@
             }
             
             .donate-button {
-                bottom: 100px;
+                bottom: 180px;
                 right: 20px;
                 width: 60px;
                 height: 60px;
@@ -501,7 +613,7 @@
             }
             
             .phone-float {
-                bottom: 20px;
+                bottom: 100px;
                 left: 20px;
                 width: 60px;
                 height: 60px;
@@ -575,12 +687,36 @@
             
             <!-- Мини-игра Тетрис -->
             <div class="tetris-container">
-                <div class="tetris-header">Игра Тетрис</div>
+                <div class="tetris-header">
+                    <div>Игра Тетрис</div>
+                    <div class="score-display">Очки: <span id="tetrisScore">0</span></div>
+                </div>
                 <canvas id="tetris" width="200" height="300"></canvas>
                 <div class="tetris-controls">
                     <button class="tetris-btn" id="startBtn">Старт</button>
                     <button class="tetris-btn" id="pauseBtn">Пауза</button>
                 </div>
+                
+                <div class="mobile-controls">
+                    <button class="mobile-btn rotate" id="rotateBtn">↻</button>
+                    <button class="mobile-btn left" id="leftBtn">←</button>
+                    <button class="mobile-btn down" id="downBtn">↓</button>
+                    <button class="mobile-btn right" id="rightBtn">→</button>
+                </div>
+            </div>
+            
+            <!-- Мини-игра Пинг-понг -->
+            <div class="pong-container">
+                <div class="pong-header">
+                    <div>Игра Пинг-понг</div>
+                    <div class="score-display">Счёт: <span id="pongScore">0:0</span></div>
+                </div>
+                <canvas id="pong" width="200" height="200"></canvas>
+                <div class="pong-controls">
+                    <button class="pong-btn" id="pongStartBtn">Старт</button>
+                    <button class="pong-btn" id="pongPauseBtn">Пауза</button>
+                </div>
+                <input type="range" min="0" max="200" value="100" class="pong-slider" id="pongSlider">
             </div>
         </div>
         
@@ -727,17 +863,24 @@
     
     <script>
         // Мини-игра Тетрис
-        const canvas = document.getElementById('tetris');
-        const ctx = canvas.getContext('2d');
+        const tetrisCanvas = document.getElementById('tetris');
+        const tetrisCtx = tetrisCanvas.getContext('2d');
         const startBtn = document.getElementById('startBtn');
         const pauseBtn = document.getElementById('pauseBtn');
+        const tetrisScoreElement = document.getElementById('tetrisScore');
+        
+        // Кнопки для мобильных устройств
+        const rotateBtn = document.getElementById('rotateBtn');
+        const leftBtn = document.getElementById('leftBtn');
+        const rightBtn = document.getElementById('rightBtn');
+        const downBtn = document.getElementById('downBtn');
         
         // Размеры поля
         const ROWS = 20;
         const COLS = 10;
         const BLOCK_SIZE = 15;
-        canvas.width = COLS * BLOCK_SIZE;
-        canvas.height = ROWS * BLOCK_SIZE;
+        tetrisCanvas.width = COLS * BLOCK_SIZE;
+        tetrisCanvas.height = ROWS * BLOCK_SIZE;
         
         // Фигуры тетриса
         const SHAPES = [
@@ -788,7 +931,7 @@
         
         // Отрисовка игрового поля
         function drawBoard() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            tetrisCtx.clearRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
             
             // Отрисовка статичных блоков
             for (let y = 0; y < ROWS; y++) {
@@ -813,11 +956,11 @@
         
         // Отрисовка одного блока
         function drawBlock(x, y, colorIndex) {
-            ctx.fillStyle = COLORS[colorIndex];
-            ctx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+            tetrisCtx.fillStyle = COLORS[colorIndex];
+            tetrisCtx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
             
-            ctx.strokeStyle = '#000';
-            ctx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+            tetrisCtx.strokeStyle = '#000';
+            tetrisCtx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
         }
         
         // Движение фигуры вниз
@@ -897,6 +1040,7 @@
             
             if (lines > 0) {
                 score += [0, 100, 300, 500, 800][lines];
+                tetrisScoreElement.textContent = score;
             }
         }
         
@@ -953,6 +1097,7 @@
                 initBoard();
                 currentPiece = createPiece();
                 score = 0;
+                tetrisScoreElement.textContent = score;
                 gameInterval = setInterval(moveDown, 500);
                 startBtn.textContent = 'Стоп';
                 isPaused = false;
@@ -975,9 +1120,200 @@
             }
         });
         
+        // Кнопки для мобильных устройств
+        rotateBtn.addEventListener('click', () => {
+            if (currentPiece && !isPaused) rotatePiece();
+            drawBoard();
+        });
+        
+        leftBtn.addEventListener('click', () => {
+            if (currentPiece && !isPaused) {
+                currentPiece.x--;
+                if (checkCollision()) currentPiece.x++;
+            }
+            drawBoard();
+        });
+        
+        rightBtn.addEventListener('click', () => {
+            if (currentPiece && !isPaused) {
+                currentPiece.x++;
+                if (checkCollision()) currentPiece.x--;
+            }
+            drawBoard();
+        });
+        
+        downBtn.addEventListener('click', () => {
+            if (currentPiece && !isPaused) moveDown();
+        });
+        
         // Инициализация игры
         initBoard();
         drawBoard();
+        
+        // Мини-игра Пинг-понг
+        const pongCanvas = document.getElementById('pong');
+        const pongCtx = pongCanvas.getContext('2d');
+        const pongScoreElement = document.getElementById('pongScore');
+        const pongStartBtn = document.getElementById('pongStartBtn');
+        const pongPauseBtn = document.getElementById('pongPauseBtn');
+        const pongSlider = document.getElementById('pongSlider');
+        
+        // Размеры поля
+        const PONG_WIDTH = 200;
+        const PONG_HEIGHT = 200;
+        pongCanvas.width = PONG_WIDTH;
+        pongCanvas.height = PONG_HEIGHT;
+        
+        // Размеры ракеток и мяча
+        const PADDLE_HEIGHT = 10;
+        const PADDLE_WIDTH = 50;
+        const BALL_SIZE = 8;
+        
+        // Позиции игроков
+        let playerPaddle = PONG_WIDTH/2 - PADDLE_WIDTH/2;
+        let computerPaddle = PONG_WIDTH/2 - PADDLE_WIDTH/2;
+        
+        // Позиция мяча
+        let ballX = PONG_WIDTH/2;
+        let ballY = PONG_HEIGHT/2;
+        
+        // Скорость мяча
+        let ballSpeedX = 3;
+        let ballSpeedY = 3;
+        
+        // Счёт
+        let playerScore = 0;
+        let computerScore = 0;
+        
+        // Состояние игры
+        let pongInterval = null;
+        let pongPaused = true;
+        
+        // Отрисовка игры
+        function drawPong() {
+            // Очистка поля
+            pongCtx.clearRect(0, 0, PONG_WIDTH, PONG_HEIGHT);
+            
+            // Отрисовка сетки
+            pongCtx.fillStyle = '#34495e';
+            for (let i = 0; i < PONG_HEIGHT; i += 20) {
+                pongCtx.fillRect(PONG_WIDTH/2 - 2, i, 4, 10);
+            }
+            
+            // Отрисовка ракеток
+            pongCtx.fillStyle = '#3498db';
+            pongCtx.fillRect(playerPaddle, PONG_HEIGHT - PADDLE_HEIGHT - 2, PADDLE_WIDTH, PADDLE_HEIGHT);
+            pongCtx.fillRect(computerPaddle, 2, PADDLE_WIDTH, PADDLE_HEIGHT);
+            
+            // Отрисовка мяча
+            pongCtx.fillStyle = '#e74c3c';
+            pongCtx.beginPath();
+            pongCtx.arc(ballX, ballY, BALL_SIZE, 0, Math.PI * 2);
+            pongCtx.fill();
+            
+            // Обновление счёта
+            pongScoreElement.textContent = `${playerScore}:${computerScore}`;
+        }
+        
+        // Обновление игры
+        function updatePong() {
+            if (pongPaused) return;
+            
+            // Движение мяча
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+            
+            // Отскок от стен
+            if (ballX <= BALL_SIZE || ballX >= PONG_WIDTH - BALL_SIZE) {
+                ballSpeedX = -ballSpeedX;
+            }
+            
+            // Отскок от ракеток
+            if (
+                ballY <= BALL_SIZE + PADDLE_HEIGHT && 
+                ballX >= computerPaddle && 
+                ballX <= computerPaddle + PADDLE_WIDTH
+            ) {
+                ballSpeedY = -ballSpeedY;
+                // Увеличение сложности при ударе
+                ballSpeedX += (Math.random() - 0.5) * 2;
+            }
+            
+            if (
+                ballY >= PONG_HEIGHT - BALL_SIZE - PADDLE_HEIGHT && 
+                ballX >= playerPaddle && 
+                ballX <= playerPaddle + PADDLE_WIDTH
+            ) {
+                ballSpeedY = -ballSpeedY;
+                // Увеличение сложности при ударе
+                ballSpeedX += (Math.random() - 0.5) * 2;
+            }
+            
+            // Забитый гол
+            if (ballY < 0) {
+                playerScore++;
+                resetBall();
+            }
+            
+            if (ballY > PONG_HEIGHT) {
+                computerScore++;
+                resetBall();
+            }
+            
+            // ИИ компьютера
+            computerPaddle = ballX - PADDLE_WIDTH/2;
+            if (computerPaddle < 0) computerPaddle = 0;
+            if (computerPaddle > PONG_WIDTH - PADDLE_WIDTH) computerPaddle = PONG_WIDTH - PADDLE_WIDTH;
+            
+            // Отрисовка
+            drawPong();
+        }
+        
+        // Сброс мяча
+        function resetBall() {
+            ballX = PONG_WIDTH/2;
+            ballY = PONG_HEIGHT/2;
+            ballSpeedX = (Math.random() > 0.5 ? 1 : -1) * 3;
+            ballSpeedY = 3;
+        }
+        
+        // Управление игроком
+        pongSlider.addEventListener('input', () => {
+            playerPaddle = parseInt(pongSlider.value);
+        });
+        
+        // Запуск игры
+        pongStartBtn.addEventListener('click', () => {
+            if (pongInterval) {
+                clearInterval(pongInterval);
+                pongInterval = null;
+                pongStartBtn.textContent = 'Старт';
+                pongPaused = true;
+            } else {
+                playerScore = 0;
+                computerScore = 0;
+                resetBall();
+                pongInterval = setInterval(updatePong, 30);
+                pongStartBtn.textContent = 'Стоп';
+                pongPaused = false;
+                drawPong();
+            }
+        });
+        
+        // Пауза
+        pongPauseBtn.addEventListener('click', () => {
+            if (pongInterval) {
+                if (pongPaused) {
+                    pongPauseBtn.textContent = 'Пауза';
+                } else {
+                    pongPauseBtn.textContent = 'Продолжить';
+                }
+                pongPaused = !pongPaused;
+            }
+        });
+        
+        // Инициализация игры
+        drawPong();
         
         // Отправка формы
         document.getElementById('serviceForm').addEventListener('submit', function(e) {
