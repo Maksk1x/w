@@ -1,12 +1,11 @@
 // Загрузка блоков при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     loadBlock('header', 'blocks/header.html');
+    loadBlock('left-sidebar', 'blocks/left-sidebar.html');
     loadBlock('hero', 'blocks/hero.html');
-    loadBlock('about', 'blocks/about.html');
     loadBlock('services', 'blocks/services.html');
-    loadBlock('portfolio', 'blocks/portfolio.html');
-    loadBlock('testimonials', 'blocks/testimonials.html');
     loadBlock('contact', 'blocks/contact.html');
+    loadBlock('right-sidebar', 'blocks/right-sidebar.html');
     loadBlock('footer', 'blocks/footer.html');
 });
 
