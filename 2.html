@@ -99,6 +99,8 @@
             color: white;
             text-decoration: none;
             transition: opacity 0.3s;
+            display: block;
+            margin-bottom: 5px;
         }
         
         .contact-link:hover {
@@ -690,19 +692,15 @@
         <!-- ЛЕВЫЙ САЙДБАР -->
         <div class="sidebar">
             <div class="content-block">
-                <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
                 <h3>Веб-разработка</h3>
                 <div class="service-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><rect x=\"10\" y=\"20\" width=\"80\" height=\"60\" fill=\"%233a7bd5\" rx=\"5\" ry=\"5\"/><rect x=\"15\" y=\"30\" width=\"20\" height=\"10\" fill=\"%23ffffff\"/><rect x=\"40\" y=\"30\" width=\"45\" height=\"10\" fill=\"%23ffffff\"/><rect x=\"15\" y=\"45\" width=\"70\" height=\"10\" fill=\"%23ffffff\"/><rect x=\"15\" y=\"60\" width=\"70\" height=\"10\" fill=\"%23ffffff\"/><circle cx=\"85\" y=\"75\" r=\"5\" fill=\"%23ff6b6b\"/></svg>')"></div>
                 <p>Создаем современные одностраничные сайты для вашего бизнеса. От идеи до реализации под ключ. Привлекательный дизайн и адаптивная верстка.</p>
-                <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
             </div>
             
             <div class="content-block">
-                <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
                 <h3>Оцифровка воспоминаний</h3>
                 <div class="service-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><rect x=\"20\" y=\"25\" width=\"60\" height=\"45\" fill=\"%23f9f9f9\" stroke=\"%23333\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"40\" r=\"10\" fill=\"%23ff6b00\"/><rect x=\"40\" y=\"55\" width=\"20\" height=\"10\" fill=\"%23333\"/><path d=\"M30,75 L70,75 L65,90 L35,90 Z\" fill=\"%23333\"/><rect x=\"25\" y=\"30\" width=\"5\" height=\"5\" fill=\"%23ff6b00\"/><rect x=\"70\" y=\"30\" width=\"5\" height=\"5\" fill=\"%23ff6b00\"/></svg>')"></div>
                 <p>Превратим ваши старые фото и видеокассеты в цифровые файлы. Сохраним драгоценные моменты для будущих поколений. Качественная обработка и реставрация.</p>
-                <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
             </div>
             
             <!-- Мини-игра Тетрис -->
@@ -802,25 +800,19 @@
         <!-- ПРАВЫЙ САЙДБАР -->
         <div class="sidebar">
             <div class="content-block">
-                <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
                 <h3>Отзывы</h3>
-                <p>"Отлично починили ноутбук за 1 день!" - Иван С.</p>
-                <p>"Профессионально заменили экран на смартфоне" - Марина К.</p>
-                <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
+                <p>Отлично починили ноутбук за 1 день! - Иван С.</p>
+                <p>Профессионально заменили экран на смартфоне - Марина К.</p>
             </div>
             
             <div class="content-block">
-                <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
                 <h3>Новинки</h3>
                 <p>Теперь ремонтируем игровые консоли нового поколения</p>
-                <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
             </div>
             
             <div class="content-block">
-                <!-- ====== НАЧАЛО БЛОКА ДЛЯ КОНТЕНТА ====== -->
                 <h3>Статьи</h3>
                 <p>Как продлить жизнь аккумулятору вашего устройства</p>
-                <!-- ====== КОНЕЦ БЛОКА ДЛЯ КОНТЕНТА ====== -->
             </div>
             
             <!-- Мини-игра Тамагочи -->
@@ -1027,7 +1019,7 @@
         // Фиксация фигуры на поле
         function lockPiece() {
             currentPiece.shape.forEach((row, y) => {
-                row.forEach((value, x) {
+                row.forEach((value, x) => {
                     if (value) {
                         const boardY = currentPiece.y + y;
                         if (boardY >= 0) {
