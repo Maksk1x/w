@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Генератор визиток</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .card {
+            width: 90mm; height: 50mm;
+            border: 1px dashed #000;
+            padding: 5px;
+            margin: 10px;
+            display: inline-block;
+        }
+        .header { text-align: center; font-weight: bold; font-size: 16pt; }
+        .phone { text-align: center; font-size: 12pt; }
+        .content { display: flex; margin-top: 10px; }
+        .services { width: 60%; font-size: 10pt; }
+        .image { width: 40%; text-align: center; }
+        input, textarea { width: 100%; margin-bottom: 10px; }
+        img { max-width: 100%; max-height: 100%; }
+    </style>
+</head>
+<body>
+    <h2>Редактор визитки</h2>
+    <div>
+        <label>Название: <input type="text" id="title" value="Сервисный центр"></label><br>
+        <label>Телефон: <input type="text" id="phone" value="+7 (123) 456-78-90"></label><br>
+        <label>Услуги: <textarea id="services" rows="5">- Ремонт ПК
+- Настройка ПО
+- Замена комплектующих</textarea></label><br>
+        <label>Изображение: <input type="file" id="imageUpload"></label><br>
+        <button onclick="updateCard()">Обновить визитку</button>
+        <button onclick="window.print()">Печать</button>
+    </div>
+
+    <div class="card">
+        <div class="header" id="cardTitle">Сервисный центр</div>
+        <div class="phone" id="cardPhone">+7 (123) 456-78-90</div>
+        <div class="content">
+            <div class="services" id="cardServices"></div>
+            <div class="image"><img id="cardImage" src="" alt="Логотип"></div>
+        </div>
+    </div>
+
+    <script>
+        function updateCard() {
+            document.getElementById('cardTitle').innerText = document.getElementById('title').value;
+            document.getElementById('cardPhone').innerText = document.getElementById('phone').value;
+            document.getElementById('cardServices').innerHTML = document.getElementById('services').value.replace(/\n/g, '<br>');
+        }
+
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('cardImage').src = event.target.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        });
+    </script>
+</body>
+</html>
